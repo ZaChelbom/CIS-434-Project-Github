@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2n5t0qpj2fhq"]
+
+[ext_resource type="Texture2D" uid="uid://doc7msrikmjye" path="res://Assets/2_of_clubs.png" id="1_55g38"]
+[ext_resource type="Script" uid="uid://cdcufn717e4b2" path="res://Scripts/texture_button.gd" id="2_impa4"]
+
+[node name="TextureButton" type="TextureButton"]
+custom_minimum_size = Vector2(128, 192)
+texture_normal = ExtResource("1_55g38")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_impa4")
+
+[node name="number_label" type="Label" parent="."]
+layout_mode = 0
+offset_top = 160.0
+offset_right = 27.0
+offset_bottom = 194.0
+rotation = -0.12915437
+pivot_offset = Vector2(12.86, 0)
+theme_override_colors/font_color = Color(6.160736e-06, 0.5794178, 0.8023923, 1)
+theme_override_font_sizes/font_size = 24
+text = "x6"
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
