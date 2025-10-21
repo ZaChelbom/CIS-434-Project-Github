@@ -1,30 +1,49 @@
 extends TextureButton
 
-var card = ""
-var number_of_cards = 6
+signal updateDeck(is_deck_button,card_type,card_suit)
+
+const DECK_BUILDER_PATH = "res://Scenes/deck_builder.gd"
+
+var card_type: String
+var card_suit: int
+var number_of_cards: int
 var is_deck_button: bool
+
 @onready var number_label = $number_label
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	get_tree().get_root().get_node("Deck_builder").updateCard.connect(_on_updateCard) #connect the signal
+	if is_deck_button and number_of_cards == 0:
+		number_label.text = "x%d" %[number_of_cards]
+		$".".modulate = Color(1,1,1,0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
+func _on_updateCard(check_button,check_card_type,check_card_suit):
+	if is_deck_button != check_button && check_card_type == card_type && card_suit == check_card_suit:
+		#print("Update card signal received")
+		#print("New card number: %d" %new_card_number)
+		number_of_cards += 1
+		number_label.text = "x%d" %[number_of_cards]
+		if is_deck_button and number_of_cards:
+			$".".modulate = Color(1,1,1,1)
+	else:
+		pass
 
+# when the button is pressed, decrement the card counter on the button and
+# increment the counter on the opposing card
 func _on_pressed() -> void:
-	pass # Replace with function body.
+	#print(number_of_cards)
 	if number_of_cards > 0: #decrement label 
 		number_of_cards -= 1
 		number_label.text = "x%d" %[number_of_cards]
-		print(card)
-		if is_deck_button && number_of_cards == 0:
-			#$".".disabled = true
+		updateDeck.emit(is_deck_button,card_type,card_suit) # emit signal
+		#print(card_type)
+		if is_deck_button and number_of_cards == 0:
 			$".".modulate = Color(1,1,1,0)
-		#add card to deck
 	else:
 		pass
 	

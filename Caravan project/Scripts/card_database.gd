@@ -1,6 +1,6 @@
 const CARDS = { #Value, suit, type 0 = number card, 1 = face card
 	#clubs
-	"ace_of_clubs" : [1, "club", 0],
+	"ace_of_clubs" : [1, "club", 0], #0
 	"2_of_clubs" : [2, "club", 0],
 	"3_of_clubs" : [3, "club", 0],
 	"4_of_clubs" : [4, "club", 0],
@@ -12,7 +12,7 @@ const CARDS = { #Value, suit, type 0 = number card, 1 = face card
 	"10_of_clubs" : [10, "club", 0],
 	"jack_of_clubs" : [0, "club", 1],
 	"queen_of_clubs" : [0, "club", 1],
-	"king_of_clubs" : [0, "club", 1],
+	"king_of_clubs" : [0, "club", 1], #12
 	#diamonds
 	"ace_of_diamonds" : [1, "diamond", 0],
 	"2_of_diamonds" : [2, "diamond", 0],
