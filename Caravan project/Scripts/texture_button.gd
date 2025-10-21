@@ -28,8 +28,11 @@ func _on_updateCard(check_button,check_card_type,check_card_suit):
 		#print("New card number: %d" %new_card_number)
 		number_of_cards += 1
 		number_label.text = "x%d" %[number_of_cards]
-		if is_deck_button and number_of_cards:
+		if is_deck_button:
 			$".".modulate = Color(1,1,1,1)
+		else:
+			pass
+			#$".".modulate = Color(1,1,1,1)
 	else:
 		pass
 
@@ -42,8 +45,12 @@ func _on_pressed() -> void:
 		number_label.text = "x%d" %[number_of_cards]
 		updateDeck.emit(is_deck_button,card_type,card_suit) # emit signal
 		#print(card_type)
-		if is_deck_button and number_of_cards == 0:
-			$".".modulate = Color(1,1,1,0)
+		if number_of_cards == 0:
+			if is_deck_button: 
+				$".".modulate = Color(1,1,1,0)
+			else:
+				pass
+				#$".".modulate = Color(1,1,1,50)
 	else:
 		pass
 	

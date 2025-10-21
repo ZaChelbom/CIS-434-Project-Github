@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2n5t0qpj2fhq"]
+[gd_scene load_steps=4 format=3 uid="uid://b2n5t0qpj2fhq"]
 
 [ext_resource type="Texture2D" uid="uid://doc7msrikmjye" path="res://Assets/2_of_clubs.png" id="1_55g38"]
 [ext_resource type="Script" uid="uid://cdcufn717e4b2" path="res://Scripts/texture_button.gd" id="2_impa4"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4nbap"]
+
 [node name="TextureButton" type="TextureButton"]
+material = SubResource("ShaderMaterial_4nbap")
 custom_minimum_size = Vector2(128, 192)
 texture_normal = ExtResource("1_55g38")
 ignore_texture_size = true
