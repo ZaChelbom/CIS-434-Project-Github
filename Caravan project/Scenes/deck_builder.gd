@@ -73,12 +73,11 @@ func _create_cards():
 					new_button.is_deck_button = true
 					new_button.number_of_cards = deck[deck_keys_array[i]][j]
 					$ScrollContainer2/VBoxContainer/GridContainer.add_child(new_button)
-	
 	#add jokers at the end
 		new_button = card_button.instantiate()
-		card_image_path = str("res://Assets/red_joker.png")
+		card_image_path = str("res://Assets/joker.png")
 		new_button.texture_normal = load(card_image_path)
-		new_button.card_type = "red_joker"
+		new_button.card_type = "joker"
 		new_button.updateDeck.connect(_on_update_deck)
 		
 		if k == 0: #available cards - joker

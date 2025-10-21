@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bam4avv58gm4r"
-path="res://.godot/imported/king_of_hearts2.png-8ec2ade1bbad1d0e2c5ca57d7b525fd9.ctex"
+uid="uid://bsva42mkw1ix7"
+path="res://.godot/imported/joker.png-35c058cedd6572fb1067fd5e44e98bf7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/king_of_hearts2.png"
-dest_files=["res://.godot/imported/king_of_hearts2.png-8ec2ade1bbad1d0e2c5ca57d7b525fd9.ctex"]
+source_file="res://Assets/joker.png"
+dest_files=["res://.godot/imported/joker.png-35c058cedd6572fb1067fd5e44e98bf7.ctex"]
 
 [params]
 

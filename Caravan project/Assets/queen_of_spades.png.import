@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dr08u12ku4c74"
-path="res://.godot/imported/queen_of_spades.png-2d2c6e27791183adfca64c63ee980e8e.ctex"
+uid="uid://dxm7jc0nkoer4"
+path="res://.godot/imported/queen_of_spades2.png-bf4cd7474c77482d7ab9a70ffb8688ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/queen_of_spades.png"
-dest_files=["res://.godot/imported/queen_of_spades.png-2d2c6e27791183adfca64c63ee980e8e.ctex"]
+source_file="res://Assets/queen_of_spades2.png"
+dest_files=["res://.godot/imported/queen_of_spades2.png-bf4cd7474c77482d7ab9a70ffb8688ad.ctex"]
 
 [params]
 

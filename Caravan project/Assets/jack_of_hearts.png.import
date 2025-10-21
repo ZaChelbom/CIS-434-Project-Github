@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhpbm0xsym70w"
-path="res://.godot/imported/jack_of_hearts.png-8adf0bac1f795d2020b9d73c3884c961.ctex"
+uid="uid://b60bn11x7jcds"
+path="res://.godot/imported/jack_of_hearts2.png-4a46619fdb9a49c1acf98f7fa8831a17.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/jack_of_hearts.png"
-dest_files=["res://.godot/imported/jack_of_hearts.png-8adf0bac1f795d2020b9d73c3884c961.ctex"]
+source_file="res://Assets/jack_of_hearts2.png"
+dest_files=["res://.godot/imported/jack_of_hearts2.png-4a46619fdb9a49c1acf98f7fa8831a17.ctex"]
 
 [params]
 

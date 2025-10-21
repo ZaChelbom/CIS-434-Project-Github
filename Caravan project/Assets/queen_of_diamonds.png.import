@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://l5knf1jc333h"
-path="res://.godot/imported/queen_of_diamonds.png-d2fc165a6ba303d8262ba0c3a38b3f53.ctex"
+uid="uid://jypj1emjlrw"
+path="res://.godot/imported/queen_of_diamonds2.png-91f68fb6d1b592c5ddc11901c389518c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/queen_of_diamonds.png"
-dest_files=["res://.godot/imported/queen_of_diamonds.png-d2fc165a6ba303d8262ba0c3a38b3f53.ctex"]
+source_file="res://Assets/queen_of_diamonds2.png"
+dest_files=["res://.godot/imported/queen_of_diamonds2.png-91f68fb6d1b592c5ddc11901c389518c.ctex"]
 
 [params]
 
