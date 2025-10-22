@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://beukbfm1oskjq"
-path="res://.godot/imported/jack_of_clubs2.png-71b810b4e85bf2c29d7093c9fc6fab88.ctex"
+path="res://.godot/imported/jack_of_clubs.png-ed3a1836ceed3a8fe0d8e60265ca7d1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/jack_of_clubs2.png"
-dest_files=["res://.godot/imported/jack_of_clubs2.png-71b810b4e85bf2c29d7093c9fc6fab88.ctex"]
+source_file="res://Assets/jack_of_clubs.png"
+dest_files=["res://.godot/imported/jack_of_clubs.png-ed3a1836ceed3a8fe0d8e60265ca7d1d.ctex"]
 
 [params]
 

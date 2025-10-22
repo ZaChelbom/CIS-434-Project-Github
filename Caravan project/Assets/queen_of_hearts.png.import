@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bbu6fuhphm07o"
-path="res://.godot/imported/queen_of_hearts2.png-6e75232717d8c07fcadc90af6321ba6a.ctex"
+path="res://.godot/imported/queen_of_hearts.png-5358beafbbec9ef9964c500d748bafbf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/queen_of_hearts2.png"
-dest_files=["res://.godot/imported/queen_of_hearts2.png-6e75232717d8c07fcadc90af6321ba6a.ctex"]
+source_file="res://Assets/queen_of_hearts.png"
+dest_files=["res://.godot/imported/queen_of_hearts.png-5358beafbbec9ef9964c500d748bafbf.ctex"]
 
 [params]
 

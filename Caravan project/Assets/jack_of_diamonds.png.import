@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bgpogitaru62l"
-path="res://.godot/imported/jack_of_diamonds2.png-60c8f46dc8e470aca52aed72cfb07c8a.ctex"
+path="res://.godot/imported/jack_of_diamonds.png-266bac729440aa0ca788a2ad3944dcfb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/jack_of_diamonds2.png"
-dest_files=["res://.godot/imported/jack_of_diamonds2.png-60c8f46dc8e470aca52aed72cfb07c8a.ctex"]
+source_file="res://Assets/jack_of_diamonds.png"
+dest_files=["res://.godot/imported/jack_of_diamonds.png-266bac729440aa0ca788a2ad3944dcfb.ctex"]
 
 [params]
 

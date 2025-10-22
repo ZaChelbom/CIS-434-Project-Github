@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b44r7amc0syhg"
-path="res://.godot/imported/ace_of_spades2.png-8653a5c2d43a1173279b714163730e56.ctex"
+path="res://.godot/imported/ace_of_spades.png-f229644afe53d171bebe3b0295302ebf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ace_of_spades2.png"
-dest_files=["res://.godot/imported/ace_of_spades2.png-8653a5c2d43a1173279b714163730e56.ctex"]
+source_file="res://Assets/ace_of_spades.png"
+dest_files=["res://.godot/imported/ace_of_spades.png-f229644afe53d171bebe3b0295302ebf.ctex"]
 
 [params]
 

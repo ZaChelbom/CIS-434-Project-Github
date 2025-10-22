@@ -42,6 +42,9 @@ func _ready() -> void:
 	# disable the scrollbar of container 2
 	scroll_container2.get_v_scroll_bar().mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
+func _load_deck():
+	pass
+	
 func _on_update_deck(is_deck_button,card_type,card_suit):
 	print("Update deck signal recieved")
 	if is_deck_button:

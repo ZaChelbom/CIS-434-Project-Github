@@ -48,9 +48,6 @@ func _on_pressed() -> void:
 		if number_of_cards == 0:
 			if is_deck_button: 
 				$".".modulate = Color(1,1,1,0)
-			else:
-				pass
-				#$".".modulate = Color(1,1,1,50)
 	else:
 		pass
 	
