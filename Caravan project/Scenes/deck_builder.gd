@@ -5,8 +5,9 @@ signal updateCard(is_deck_button,card_type,card_suit)
 const CARD_BUTTON_PATH = "res://Scenes/card_button.tscn"
 const MAX_NUMBER_CARDS = 6
 
-var card_database_reference
 var card_button
+var card_counter: int = 0
+#var saved_deck = # will go to user's %appdata% folder
 var card_suit_array = [
 	"clubs",
 	"diamonds",
@@ -41,6 +42,7 @@ func _ready() -> void:
 	_create_cards()
 	# disable the scrollbar of container 2
 	scroll_container2.get_v_scroll_bar().mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_update_card_counter()
 	
 func _load_deck():
 	pass
@@ -49,9 +51,12 @@ func _on_update_deck(is_deck_button,card_type,card_suit):
 	print("Update deck signal recieved")
 	if is_deck_button:
 		deck[card_type][card_suit] -= 1
+		card_counter -= 1
 	else:
 		deck[card_type][card_suit] += 1
+		card_counter += 1
 	
+	_update_card_counter()
 	updateCard.emit(is_deck_button,card_type,card_suit)
 	print("Number of %s in deck: %d" %[card_type, deck[card_type][card_suit]])
 	
@@ -64,6 +69,7 @@ func _create_cards():
 			for j in 4: # 0-3 : card suit 
 				new_button = card_button.instantiate() # create new button
 				card_image_path = str("res://Assets/" + deck_keys_array[i] + "_of_" + card_suit_array[j] + ".png")
+				new_button.card_texture = card_image_path
 				new_button.texture_normal = load(card_image_path)
 				new_button.card_type = str(deck_keys_array[i])
 				new_button.card_suit = j
@@ -108,3 +114,12 @@ func _input(event: InputEvent) -> void:
 			scroll_container1.scroll_vertical += 25
 			scroll_container2.scroll_vertical += 25
 			#print("Mouse wheel down")
+			
+			
+func _update_card_counter():
+	if card_counter < 30:
+		$CardCounterLabel.add_theme_color_override("font_color",Color(255,0,0))
+	else:
+		$CardCounterLabel.add_theme_color_override("font_color",Color(255,1,1))
+		
+	$CardCounterLabel.text = "Cards: %d" %card_counter

@@ -6,6 +6,7 @@ const DECK_BUILDER_PATH = "res://Scenes/deck_builder.gd"
 
 var card_type: String
 var card_suit: int
+var card_texture: String
 var number_of_cards: int
 var is_deck_button: bool
 
@@ -33,6 +34,7 @@ func _on_updateCard(check_button,check_card_type,check_card_suit):
 		else:
 			pass
 			#$".".modulate = Color(1,1,1,1)
+			$".".texture_normal = load(card_texture)
 	else:
 		pass
 
@@ -48,6 +50,9 @@ func _on_pressed() -> void:
 		if number_of_cards == 0:
 			if is_deck_button: 
 				$".".modulate = Color(1,1,1,0)
+			else:
+				$".".texture_normal = load("res://Assets/cardHachi.png")
+				#pass
 	else:
 		pass
 	
