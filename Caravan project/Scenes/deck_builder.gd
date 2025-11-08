@@ -1,6 +1,7 @@
 extends Node2D
 
-signal updateCard(is_deck_button,card_type,card_suit)
+signal clickUpdateCard(is_deck_button,card_type,card_suit)
+signal updateCard()
 
 const CARD_BUTTON_PATH = "res://Scenes/card_button.tscn"
 const MAX_NUMBER_CARDS = 6
@@ -48,6 +49,7 @@ func _ready() -> void:
 		
 	
 	_create_cards()
+	updateCard.emit()
 	# disable the scrollbar of container 2
 	scroll_container2.get_v_scroll_bar().mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_update_card_counter()
@@ -67,7 +69,7 @@ func _on_update_deck(is_deck_button,card_type,card_suit):
 		card_counter += 1
 	
 	_update_card_counter()
-	updateCard.emit(is_deck_button,card_type,card_suit)
+	clickUpdateCard.emit(is_deck_button,card_type,card_suit)
 	print("Number of %s in deck: %d" %[card_type, deck[card_type][card_suit]])
 
 
@@ -107,6 +109,8 @@ func _set_card_parameters(button_type, card_type, card_suit):
 		$ScrollContainer/VBoxContainer/GridContainer.add_child(new_button) # add button as child to left side grid container
 	else: # Deck cards section button
 		new_button.is_deck_button = true
+		if deck[card_type][card_suit] != 0:
+			card_counter += deck[card_type][card_suit]
 		new_button.number_of_cards = deck[card_type][card_suit]
 		$ScrollContainer2/VBoxContainer/GridContainer.add_child(new_button) # add button as child to right side grid container
 
@@ -131,7 +135,9 @@ func _input(event: InputEvent) -> void:
 func _update_card_counter():
 	if card_counter < 30:
 		$CardCounterLabel.add_theme_color_override("font_color",Color(255,0,0))
+		$MainMenuButton.disabled = true
 	else:
 		$CardCounterLabel.add_theme_color_override("font_color",Color(255,1,1))
+		$MainMenuButton.disabled = false
 		
 	$CardCounterLabel.text = "Cards: %d" %card_counter

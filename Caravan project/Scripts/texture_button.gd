@@ -15,6 +15,7 @@ var is_deck_button: bool
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_tree().get_root().get_node("Deck_builder").updateCard.connect(_on_updateCard) #connect the signal
+	get_tree().get_root().get_node("Deck_builder").clickUpdateCard.connect(_on_click_updateCard) #connect the signal
 	if is_deck_button and number_of_cards == 0:
 		number_label.text = "x%d" %[number_of_cards]
 		$".".modulate = Color(1,1,1,0)
@@ -23,7 +24,22 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func _on_updateCard(check_button,check_card_type,check_card_suit):
+func _on_updateCard():
+	number_label.text = "x%d" %[number_of_cards]
+	if number_of_cards == 0:
+		if is_deck_button:
+			$".".modulate = Color(1,1,1,0)
+		else:
+			$".".texture_normal = load("res://Assets/cardHachi.png")
+	else:
+		if is_deck_button:
+			$".".modulate = Color(1,1,1,1)
+		else:
+			$".".texture_normal = load(card_texture)
+
+
+
+func _on_click_updateCard(check_button,check_card_type,check_card_suit):
 	if is_deck_button != check_button && check_card_type == card_type && card_suit == check_card_suit:
 		#print("Update card signal received")
 		#print("New card number: %d" %new_card_number)
