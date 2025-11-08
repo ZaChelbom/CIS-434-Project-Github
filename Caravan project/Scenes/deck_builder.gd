@@ -39,12 +39,20 @@ var deck_keys_array = deck.keys()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if SaveLoadManager._load() == null:
+		print("No save file found")
+		SaveLoadManager.deck_to_save = deck
+	else:
+		print("Save file found")
+		deck = SaveLoadManager.deck_to_save
+		
+	
 	_create_cards()
 	# disable the scrollbar of container 2
 	scroll_container2.get_v_scroll_bar().mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_update_card_counter()
 	
-func _load_deck():
+func _is_deck_valid():
 	pass
 	
 func _on_update_deck(is_deck_button,card_type,card_suit):
@@ -59,44 +67,71 @@ func _on_update_deck(is_deck_button,card_type,card_suit):
 	_update_card_counter()
 	updateCard.emit(is_deck_button,card_type,card_suit)
 	print("Number of %s in deck: %d" %[card_type, deck[card_type][card_suit]])
-	
+
+
 func _create_cards():
+	for k in 2: # Determines button type: Goes from 0-1, 0 = available card button, 1 = deck card button
+		for i in 13: # Determines Card type: Goes from 0-12, each number represents a card type (not including jokers)
+			for j in 4: # Determines card suit: Goes from 0-3, each number represents a suit
+				_set_card_parameters(k,deck_keys_array[i],j)
+		_set_card_parameters_joker(k) # create the two joker card buttons
+
+
+# the code reuse here makes for such a bad smell but this needs to get done
+func _set_card_parameters_joker(button_type): 
 	card_button = preload(CARD_BUTTON_PATH)
-	var new_button
-	var card_image_path
-	for k in 2: # 0-1 : 0 = available card button or 1 = deck card button
-		for i in 13: # 0-12 : card type 
-			for j in 4: # 0-3 : card suit 
-				new_button = card_button.instantiate() # create new button
-				card_image_path = str("res://Assets/" + deck_keys_array[i] + "_of_" + card_suit_array[j] + ".png")
-				new_button.card_texture = card_image_path
-				new_button.texture_normal = load(card_image_path)
-				new_button.card_type = str(deck_keys_array[i])
-				new_button.card_suit = j
-				new_button.updateDeck.connect(_on_update_deck)
-				if k == 0: # available cards
-					new_button.is_deck_button = false
-					new_button.number_of_cards = MAX_NUMBER_CARDS - deck[deck_keys_array[i]][j] 
-					$ScrollContainer/VBoxContainer/GridContainer.add_child(new_button)
-				else: # deck cards 
-					new_button.is_deck_button = true
-					new_button.number_of_cards = deck[deck_keys_array[i]][j]
-					$ScrollContainer2/VBoxContainer/GridContainer.add_child(new_button)
-	#add jokers at the end
-		new_button = card_button.instantiate()
-		card_image_path = str("res://Assets/joker.png")
-		new_button.texture_normal = load(card_image_path)
-		new_button.card_type = "joker"
-		new_button.updateDeck.connect(_on_update_deck)
-		
-		if k == 0: #available cards - joker
-			new_button.number_of_cards = MAX_NUMBER_CARDS - deck["joker"][0] 
-			new_button.is_deck_button = false
-			$ScrollContainer/VBoxContainer/GridContainer.add_child(new_button)
-		else: #deck cards - joker
-			new_button.number_of_cards = deck["joker"][0] 
-			new_button.is_deck_button = true
-			$ScrollContainer2/VBoxContainer/GridContainer.add_child(new_button)
+	var card_image_path: String
+	var card_type = "joker"
+
+	card_image_path = str("res://Assets/" + card_type + ".png")
+
+	var new_button = card_button.instantiate() # create new button object
+
+	new_button.texture_normal = load(card_image_path)
+	new_button.updateDeck.connect(_on_update_deck) # connect update deck signal
+	
+	new_button.card_texture = card_image_path # card button variable to remember texture
+	new_button.card_type = card_type
+
+	if (button_type == 0): # Available cards section button
+		new_button.is_deck_button = false
+		new_button.number_of_cards = MAX_NUMBER_CARDS - deck[card_type][0] 
+		# need to update button here
+		$ScrollContainer/VBoxContainer/GridContainer.add_child(new_button) # add button as child to left side grid container
+	else: # Deck cards section button
+		new_button.is_deck_button = true
+		new_button.number_of_cards = deck[card_type][0]
+		#card_counter += 1
+		$ScrollContainer2/VBoxContainer/GridContainer.add_child(new_button) # add button as child to right side grid container
+
+
+func _set_card_parameters(button_type, card_type, card_suit):
+	card_button = preload(CARD_BUTTON_PATH)
+	var card_image_path: String
+
+	card_image_path = str("res://Assets/" + card_type + "_of_" + card_suit_array[card_suit] + ".png")
+
+	var new_button = card_button.instantiate() # create new button object
+
+	new_button.texture_normal = load(card_image_path)
+	new_button.updateDeck.connect(_on_update_deck) # connect update deck signal
+	
+	new_button.card_texture = card_image_path # card button variable to remember texture
+	new_button.card_type = str(card_type)
+	new_button.card_suit = card_suit
+
+	if (button_type == 0): # Available cards section button
+		new_button.is_deck_button = false
+		new_button.number_of_cards = MAX_NUMBER_CARDS - deck[card_type][card_suit] 
+		# need to update button here
+		$ScrollContainer/VBoxContainer/GridContainer.add_child(new_button) # add button as child to left side grid container
+	else: # Deck cards section button
+		new_button.is_deck_button = true
+		new_button.number_of_cards = deck[card_type][card_suit]
+		#card_counter += 1
+		$ScrollContainer2/VBoxContainer/GridContainer.add_child(new_button) # add button as child to right side grid container
+
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

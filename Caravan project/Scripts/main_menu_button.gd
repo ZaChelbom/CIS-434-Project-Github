@@ -12,4 +12,6 @@ func _process(delta: float) -> void:
 
 
 func _on_pressed() -> void:
+	SaveLoadManager.deck_to_save = $"..".deck
+	SaveLoadManager._save()
 	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
