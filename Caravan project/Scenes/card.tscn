@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cje52shl8o1ai"]
+[gd_scene load_steps=6 format=3 uid="uid://cje52shl8o1ai"]
 
 [ext_resource type="Script" uid="uid://cx78wdvnfran" path="res://Scenes/card.gd" id="1_brehn"]
 [ext_resource type="Texture2D" uid="uid://doc7msrikmjye" path="res://Assets/2_of_clubs.png" id="1_kikvd"]
@@ -6,6 +6,19 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_brehn"]
 size = Vector2(88, 132)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brehn"]
+bg_color = Color(0, 1, 0.3764706, 1)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 1, 0.3372549, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [node name="card" type="Node2D"]
 script = ExtResource("1_brehn")
@@ -22,3 +35,11 @@ texture = ExtResource("1_kikvd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_brehn")
+
+[node name="SelectionHighlight" type="Panel" parent="."]
+visible = false
+offset_left = -44.0
+offset_top = -66.0
+offset_right = 44.0
+offset_bottom = 66.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_brehn")
