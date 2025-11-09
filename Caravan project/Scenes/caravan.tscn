@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://xqmc3mws3p5c"]
+
+[node name="Caravan" type="Node2D"]
+
+[node name="measurementbox" type="ColorRect" parent="."]
+offset_right = 240.0
+offset_bottom = 360.0
+color = Color(1, 1, 1, 0)
+
+[node name="Tract" type="ColorRect" parent="."]
+offset_left = 80.0
+offset_top = 16.0
+offset_right = 192.0
+offset_bottom = 352.0
+color = Color(0.1705186, 0.73665875, 0.6137787, 1)
+
+[node name="border_top" type="ColorRect" parent="."]
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 16.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_right" type="ColorRect" parent="."]
+offset_left = 192.0
+offset_top = 8.0
+offset_right = 200.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_left" type="ColorRect" parent="."]
+offset_left = 72.0
+offset_top = 8.0
+offset_right = 80.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_bottom" type="ColorRect" parent="."]
+offset_left = 80.0
+offset_top = 352.0
+offset_right = 192.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 1)
+
+[node name="outbid_panel" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 64.0
+color = Color(0.9515795, 0.95157963, 0.9515795, 1)
+
+[node name="outbid_text_label" type="RichTextLabel" parent="outbid_panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 48.0
+theme_override_colors/default_color = Color(0.52156866, 0.73333335, 0.39607844, 1)
+theme_override_font_sizes/normal_font_size = 24
+text = "$"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="value_panel" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 72.0
+offset_bottom = 120.0
+color = Color(0.9529412, 0.9529412, 0.9529412, 1)
+
+[node name="value_text_label" type="RichTextLabel" parent="value_panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 48.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 24
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="suit_panel" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_top = 120.0
+offset_right = 72.0
+offset_bottom = 176.0
+color = Color(0.9529412, 0.9529412, 0.9529412, 1)
+
+[node name="suit_text_label" type="RichTextLabel" parent="suit_panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 48.0
+theme_override_font_sizes/normal_font_size = 24
+text = "♣"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="direction_panel" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_top = 176.0
+offset_right = 72.0
+offset_bottom = 232.0
+color = Color(0.9529412, 0.9529412, 0.9529412, 1)
+
+[node name="direction_text_label" type="RichTextLabel" parent="direction_panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 48.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 28
+text = "↑"
+horizontal_alignment = 1
+vertical_alignment = 1
