@@ -1,7 +1,7 @@
 class_name Hand
 extends ColorRect
 
-const CARD = preload("res://Scenes/card.tscn")
+#const CARD = preload("res://Scenes/card.tscn")
 
 @export var hand_curve: Curve
 @export var rotation_curve: Curve
@@ -11,10 +11,15 @@ const CARD = preload("res://Scenes/card.tscn")
 @export var y_min := 0 # offset on the y-axis compared to the hand's position
 @export var y_max := -15 # maximum amount of y offset that can be applied to cards based on the hand card
 
-func _draw_card():
-	var new_card = CARD.instantiate()
+func add_card_to_hand(new_card):
 	add_child(new_card)
 	_update_cards()
+	pass
+
+# func _draw_card():
+# 	var new_card = CARD.instantiate()
+# 	add_child(new_card)
+# 	_update_cards()
 
 func _discard() -> void:
 	if get_child_count() < 1: # no children means do not discard
@@ -23,8 +28,11 @@ func _discard() -> void:
 	var child := get_child(-1) # using the -1 index grabs the last child added to the hand
 	child.reparent(get_tree().root) # reparenting means that we know for sure when we call update cards the card wont be a child of the hand anymore
 	child.queue_free() # queue free only deletes a node at the end of the frame when its safe to do so
-	_update_cards()
-
+	if $"../Deck".deck.size() != 0:
+		$"../Deck".draw_card()
+	else:
+		_update_cards()
+	
 
 func _update_cards():
 	var cards := get_child_count()

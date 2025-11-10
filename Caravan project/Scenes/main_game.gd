@@ -1,11 +1,16 @@
 extends Node2D
 
 @onready var hand: Hand = $Hand
+@onready var deck: Deck = $Deck
 
+func _ready() -> void:
+	deck.load_deck()
+	for i in 8: # draw 8 cards from deck on startup
+		deck.draw_card()
 
 
 func _on_draw_card_button_pressed() -> void:
-	hand._draw_card()
+	deck.draw_card()
 
 
 func _on_discard_card_button_pressed() -> void:

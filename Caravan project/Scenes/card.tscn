@@ -24,6 +24,7 @@ corner_radius_bottom_left = 2
 script = ExtResource("1_brehn")
 
 [node name="CardIMGback" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(0.17600001, 0.18181819)
 texture = ExtResource("1_wf8id")
 
@@ -35,6 +36,7 @@ texture = ExtResource("1_kikvd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_brehn")
+debug_color = Color(0.9882353, 0, 0.9372549, 0.2901961)
 
 [node name="SelectionHighlight" type="Panel" parent="."]
 visible = false
@@ -43,3 +45,5 @@ offset_top = -66.0
 offset_right = 44.0
 offset_bottom = 66.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_brehn")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

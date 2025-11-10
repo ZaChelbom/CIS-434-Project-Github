@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://yedp7ci4l25n"]
+[gd_scene load_steps=9 format=3 uid="uid://yedp7ci4l25n"]
 
 [ext_resource type="Script" uid="uid://cn7h1gstgci4e" path="res://Scenes/main_game.gd" id="1_kry3j"]
 [ext_resource type="PackedScene" uid="uid://xqmc3mws3p5c" path="res://Scenes/caravan.tscn" id="3_8gbba"]
 [ext_resource type="Script" uid="uid://b7wbff0yr6ivd" path="res://Scenes/hand.gd" id="3_21xkr"]
 [ext_resource type="Texture2D" uid="uid://byni4lyif7eth" path="res://Assets/cardHachi.png" id="3_jjvhh"]
+[ext_resource type="Script" uid="uid://11olwl8tcyf" path="res://Scenes/deck.gd" id="5_21xkr"]
 [ext_resource type="Texture2D" uid="uid://ctckemithdhsi" path="res://Assets/table.jpg" id="7_6bp64"]
 
 [sub_resource type="Curve" id="Curve_kry3j"]
@@ -45,7 +46,6 @@ offset_right = 1280.0
 offset_bottom = 720.0
 
 [node name="deck_marker" type="ColorRect" parent="."]
-visible = false
 offset_left = 1140.0
 offset_top = 398.0
 offset_right = 1228.0
@@ -70,11 +70,6 @@ position = Vector2(240, 360)
 
 [node name="Caravan3" parent="." instance=ExtResource("3_8gbba")]
 position = Vector2(480, 360)
-
-[node name="deck" type="Sprite2D" parent="."]
-position = Vector2(1184, 464)
-scale = Vector2(0.176, 0.18181819)
-texture = ExtResource("3_jjvhh")
 
 [node name="draw_card_button" type="Button" parent="."]
 offset_left = 792.0
@@ -103,6 +98,24 @@ offset_top = 672.0
 offset_right = 944.0
 offset_bottom = 704.0
 text = "Reset (debug)"
+
+[node name="Deck" type="Node2D" parent="."]
+position = Vector2(1184, 464)
+script = ExtResource("5_21xkr")
+
+[node name="DeckImage" type="Sprite2D" parent="Deck"]
+scale = Vector2(0.176, 0.18181819)
+texture = ExtResource("3_jjvhh")
+
+[node name="DeckLabel" type="RichTextLabel" parent="Deck"]
+offset_left = -56.0
+offset_top = 72.0
+offset_right = 56.0
+offset_bottom = 104.0
+theme_override_font_sizes/normal_font_size = 22
+text = "Deck: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="draw_card_button" to="." method="_on_draw_card_button_pressed"]
 [connection signal="pressed" from="discard_card_button" to="." method="_on_discard_card_button_pressed"]
