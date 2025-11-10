@@ -8,17 +8,16 @@
 size = Vector2(88, 132)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brehn"]
-bg_color = Color(0, 1, 0.3764706, 1)
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0, 1, 0.3372549, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
+bg_color = Color(0, 1, 0.3764706, 0.3529412)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 1, 0.3372549, 0.8784314)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="card" type="Node2D"]
 script = ExtResource("1_brehn")
@@ -40,10 +39,10 @@ debug_color = Color(0.9882353, 0, 0.9372549, 0.2901961)
 
 [node name="SelectionHighlight" type="Panel" parent="."]
 visible = false
-offset_left = -44.0
-offset_top = -66.0
-offset_right = 44.0
-offset_bottom = 66.0
+offset_left = -46.0
+offset_top = -69.0
+offset_right = 46.0
+offset_bottom = 69.0
 mouse_filter = 2
 mouse_behavior_recursive = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_brehn")
