@@ -22,17 +22,21 @@ func add_card_to_hand(new_card):
 # 	_update_cards()
 
 func _discard() -> void:
+	if $"../Deck".deck.size() == 0:
+		return
+
+	if $"../Deck".deck.size() - 1 == 0:
+		$"../discard_card_button".disabled = true
+	
 	if get_child_count() < 1: # no children means do not discard
 		return
 
 	var child := get_child(-1) # using the -1 index grabs the last child added to the hand
 	child.reparent(get_tree().root) # reparenting means that we know for sure when we call update cards the card wont be a child of the hand anymore
 	child.queue_free() # queue free only deletes a node at the end of the frame when its safe to do so
-	if $"../Deck".deck.size() != 0:
-		$"../Deck".draw_card()
-	else:
-		_update_cards()
 	
+	$"../Deck".draw_card()	
+
 
 func _update_cards():
 	var cards := get_child_count()

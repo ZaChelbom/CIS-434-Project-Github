@@ -20,6 +20,7 @@ point_count = 3
 script = ExtResource("1_kry3j")
 
 [node name="Caravan table" type="Sprite2D" parent="."]
+visible = false
 z_index = -19
 position = Vector2(640, 360)
 texture = ExtResource("7_6bp64")
@@ -28,6 +29,8 @@ metadata/_edit_lock_ = true
 [node name="opponent_background" type="ColorRect" parent="."]
 offset_right = 1280.0
 offset_bottom = 360.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
 color = Color(0.9607843, 0.70980394, 0.77254903, 1)
 metadata/_edit_lock_ = true
 
@@ -35,15 +38,10 @@ metadata/_edit_lock_ = true
 offset_top = 360.0
 offset_right = 1280.0
 offset_bottom = 720.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
 color = Color(0.54901963, 0.78039217, 0.9372549, 1)
 metadata/_edit_lock_ = true
-
-[node name="deck area" type="ColorRect" parent="."]
-visible = false
-offset_left = 720.0
-offset_top = 360.0
-offset_right = 1280.0
-offset_bottom = 720.0
 
 [node name="deck_marker" type="ColorRect" parent="."]
 offset_left = 1140.0
@@ -57,6 +55,8 @@ offset_left = 752.0
 offset_top = 448.0
 offset_right = 1112.0
 offset_bottom = 536.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
 color = Color(0, 0, 0, 0)
 script = ExtResource("3_21xkr")
 hand_curve = SubResource("Curve_kry3j")
@@ -76,7 +76,7 @@ offset_left = 792.0
 offset_top = 552.0
 offset_right = 944.0
 offset_bottom = 584.0
-text = "Draw Card"
+text = "Draw Card (debug)"
 
 [node name="discard_card_button" type="Button" parent="."]
 offset_left = 792.0
