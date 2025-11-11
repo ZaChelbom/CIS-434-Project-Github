@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cje52shl8o1ai"]
 
-[ext_resource type="Script" uid="uid://cx78wdvnfran" path="res://Scenes/card.gd" id="1_brehn"]
+[ext_resource type="Script" uid="uid://cx78wdvnfran" path="res://Scripts/card.gd" id="1_brehn"]
 [ext_resource type="Texture2D" uid="uid://doc7msrikmjye" path="res://Assets/2_of_clubs.png" id="1_kikvd"]
 [ext_resource type="Texture2D" uid="uid://byni4lyif7eth" path="res://Assets/cardHachi.png" id="1_wf8id"]
 
