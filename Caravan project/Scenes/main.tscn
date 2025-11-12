@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://yedp7ci4l25n"]
+[gd_scene load_steps=8 format=3 uid="uid://yedp7ci4l25n"]
 
 [ext_resource type="Script" uid="uid://cn7h1gstgci4e" path="res://Scripts/main_game.gd" id="1_kry3j"]
-[ext_resource type="PackedScene" uid="uid://xqmc3mws3p5c" path="res://Scenes/caravan.tscn" id="3_8gbba"]
 [ext_resource type="Script" uid="uid://b7wbff0yr6ivd" path="res://Scripts/hand.gd" id="3_21xkr"]
 [ext_resource type="Texture2D" uid="uid://byni4lyif7eth" path="res://Assets/cardHachi.png" id="3_jjvhh"]
 [ext_resource type="Script" uid="uid://11olwl8tcyf" path="res://Scripts/deck.gd" id="5_21xkr"]
@@ -61,15 +60,6 @@ color = Color(0, 0, 0, 0)
 script = ExtResource("3_21xkr")
 hand_curve = SubResource("Curve_kry3j")
 rotation_curve = SubResource("Curve_21xkr")
-
-[node name="Caravan" parent="." instance=ExtResource("3_8gbba")]
-position = Vector2(0, 360)
-
-[node name="Caravan2" parent="." instance=ExtResource("3_8gbba")]
-position = Vector2(240, 360)
-
-[node name="Caravan3" parent="." instance=ExtResource("3_8gbba")]
-position = Vector2(480, 360)
 
 [node name="draw_card_button" type="Button" parent="."]
 offset_left = 792.0
