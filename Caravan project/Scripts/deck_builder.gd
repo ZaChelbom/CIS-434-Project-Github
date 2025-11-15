@@ -1,3 +1,4 @@
+class_name DeckBuilder
 extends Node2D
 
 signal clickUpdateCard(is_deck_button,card_type,card_suit)

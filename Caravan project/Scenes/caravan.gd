@@ -9,6 +9,11 @@ var caravan_suit: String # clubs, diamonds, hearts, spades
 var caravan_direction: String # ascending, descending
 var is_outbidding: bool
 
+var most_recent_number_card: Card
+var selected_card_from_hand: Card
+
+signal request_selected_card()
+
 @export var caravan_curve: Curve
 @export var rotation_curve: Curve
 
@@ -17,10 +22,7 @@ var is_outbidding: bool
 @export var x_min := 0 # offset on the x-axis compared to the caravan's position
 @export var x_max := -15 # maximum amount of x offset that can be applied to cards based on the hand card
 
-const CARD_SCENE_PATH="res://Scenes/card.tscn" #temp
-
-
-
+const CARD_SCENE_PATH = "res://Scenes/card.tscn" #temp
 
 
 func _ready() -> void:
@@ -29,9 +31,9 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-func add_card_to_caravan():
-	var card_scene = preload(CARD_SCENE_PATH)
-	var new_card = card_scene.instantiate()
+func add_card_to_caravan(new_card: Card):
+	# var card_scene = preload(CARD_SCENE_PATH)
+	# var new_card = card_scene.instantiate()
 	$tract.add_child(new_card)
 	_update_cards()
 
@@ -96,3 +98,88 @@ func _update_caravan_properties():
 	
 	if is_outbidding != null:
 		$outbid_panel/outbid_text_label.visible = is_outbidding
+
+
+# this nesting is making me sick
+func check_placement_validity() -> bool:
+	if $tract.get_child_count() == 0: # when there are no cards in the caravan
+		if selected_card_from_hand.card_type != "number card": # cannot place face cards when no number cards are in caravan
+			return false
+		else:
+			return true
+	else: # when there are already cards in the caravan
+		if selected_card_from_hand.card_type != "number card" and selected_card_from_hand.card_type != "queen":
+			pass # if the card you are trying to place is a face card that is not a queen use different type of collision detection
+
+		# need to verify the rules of queen placement
+		if selected_card_from_hand.card_type == "queen":
+			if caravan_direction != null:
+				return true
+			else:
+				return false
+
+		# check if the card is the same value as the previous card
+		if selected_card_from_hand.value == most_recent_number_card.value:
+			return false
+
+		# check direction
+		match caravan_direction:
+			"ascending":
+				if selected_card_from_hand.value > most_recent_number_card.value:
+					return true
+			"descending":
+				if selected_card_from_hand.value < most_recent_number_card.value:
+					return true
+			_:
+				pass
+		if selected_card_from_hand.value > most_recent_number_card.value and caravan_direction == "ascending":
+			return true
+
+		# check suit
+		if selected_card_from_hand.suit == caravan_suit:
+			return true
+		
+
+		return false # if you fail all previous statements return false
+
+
+func project_placement():
+	if check_placement_validity() == false:
+		print("Cannot place card here")
+		return
+	else:
+		print("Valid card placement")
+		add_card_to_caravan(selected_card_from_hand)
+	
+
+
+func _on_back_panel_mouse_entered() -> void:
+	var parent_node = get_parent()
+	var refrence_card: Card = parent_node.on_request_selected_card()
+	if refrence_card == null:
+		return
+	else:
+		var card_scene = preload(CARD_SCENE_PATH)
+		selected_card_from_hand = card_scene.instantiate()
+		selected_card_from_hand.card_name = refrence_card.card_name
+		selected_card_from_hand.value = refrence_card.value
+		selected_card_from_hand.suit = refrence_card.suit
+		selected_card_from_hand.card_type = refrence_card.card_type
+		selected_card_from_hand.is_in_hand = false
+		var card_image_path = "res://Assets/%s.png" %[selected_card_from_hand.card_name]
+		selected_card_from_hand.get_node("CardIMGfront").texture = load(card_image_path)
+		selected_card_from_hand.toggle_highlight()
+		project_placement()
+
+
+func _on_back_panel_mouse_exited() -> void:
+	#print("Mouse exited: %s" %[self.name])
+	#remove the selected_card from hand from the caravan and set it back to null
+	if selected_card_from_hand == null:
+		return
+	
+	selected_card_from_hand.reparent(get_tree().root)
+	selected_card_from_hand.queue_free()
+	selected_card_from_hand = null
+	_update_cards()
+	pass # Replace with function body.

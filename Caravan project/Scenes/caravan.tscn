@@ -44,8 +44,7 @@ offset_left = 72.0
 offset_top = 8.0
 offset_right = 200.0
 offset_bottom = 360.0
-mouse_filter = 2
-mouse_behavior_recursive = 1
+mouse_force_pass_scroll_events = false
 theme_override_styles/panel = SubResource("StyleBoxFlat_ohdke")
 
 [node name="outbid_panel" type="Panel" parent="."]
@@ -140,4 +139,9 @@ offset_left = 136.0
 offset_top = 88.0
 offset_right = 152.0
 offset_bottom = 400.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
 color = Color(1, 1, 1, 0)
+
+[connection signal="mouse_entered" from="back_panel" to="." method="_on_back_panel_mouse_entered"]
+[connection signal="mouse_exited" from="back_panel" to="." method="_on_back_panel_mouse_exited"]

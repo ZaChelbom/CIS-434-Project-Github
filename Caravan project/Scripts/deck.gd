@@ -2,6 +2,7 @@ class_name Deck
 extends Node2D
 
 const CARD_SCENE_PATH="res://Scenes/card.tscn"
+const CARD_DATABASE_PATH = "res://Scripts/card_database.gd"
 var deck = []
 
 var card_suit_array = [
@@ -52,9 +53,15 @@ func draw_card():
 	deck.erase(card_drawn_name)
 	var card_image_path = "res://Assets/%s.png" %[card_drawn_name]
 	var card_scene = preload(CARD_SCENE_PATH)
+	var card_database = preload(CARD_DATABASE_PATH) # this is dumb and bad I should have scrapped this
 	var new_card = card_scene.instantiate()
 	new_card.get_node("CardIMGfront").texture = load(card_image_path)
-	new_card.card_type = card_drawn_name
+	new_card.card_name = card_drawn_name
+	new_card.value = card_database.CARDS[card_drawn_name][0]
+	new_card.suit = card_database.CARDS[card_drawn_name][1]
+	new_card.card_type = card_database.CARDS[card_drawn_name][2]
+
+
 	$"../Hand".add_card_to_hand(new_card)
 	_update_deck()
 

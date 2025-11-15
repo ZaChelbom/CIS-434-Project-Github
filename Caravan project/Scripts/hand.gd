@@ -66,8 +66,9 @@ func _update_cards():
 		card.position = Vector2(final_x, final_y)
 		card.rotation_degrees = max_rotation_degrees * rot_multiplier
 
-
-func on_card_clicked(clicked_card: Card): # this code controls the highlight selection of cards in the hand
+# this code controls the highlight selection of cards in the hand
+# it also enables and disables the discard card and discard tract buttons
+func on_card_clicked(clicked_card: Card): 
 	if clicked_card != selected_card:
 		if selected_card != null:
 			selected_card.toggle_highlight()
@@ -82,3 +83,14 @@ func on_card_clicked(clicked_card: Card): # this code controls the highlight sel
 		selected_card = null
 		$"../discard_card_button".disabled = true
 		$"../discard_tract_button".disabled = false
+
+
+func play_selected_card():
+	pass
+
+
+# when you hover over a caravan tract
+# it will check if your currently selected card is valid to play
+# if it is valid to play it will show a copy of your card on the caravan tract
+	# (if you can figure it out, draw an arc from the card in your hand to the card placement in the caravan tract)
+# pressing click on the caravan tract will remove the selected card from your hand and place it in the caravan tract you clicked on

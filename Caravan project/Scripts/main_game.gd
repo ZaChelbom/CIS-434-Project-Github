@@ -17,6 +17,7 @@ func _ready() -> void:
 		new_caravan.owned_by = "player"
 		new_caravan.name = "player_caravan_%d" %[i]
 		add_child(new_caravan)
+		#new_caravan.request_selected_card.connect(on_request_selected_card)
 		new_caravan.position = Vector2(i*240,360)
 
 	for i in 3: # create 3 opponent caravans
@@ -26,6 +27,14 @@ func _ready() -> void:
 		new_caravan.name = "cpu_caravan_%d" %[i]
 		add_child(new_caravan)
 		new_caravan.position = Vector2(i*240,-8)
+
+
+func on_request_selected_card():
+	if hand.selected_card == null:
+		print("There is no selected card to send")
+		return null
+	else:
+		return hand.selected_card
 
 
 func _on_draw_card_button_pressed() -> void:
