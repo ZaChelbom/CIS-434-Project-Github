@@ -4,9 +4,12 @@ extends Node2D
 @onready var deck: Deck = $Deck
 const CARAVAN_SCENE_PATH="res://Scenes/caravan.tscn"
 
+var is_setup_phase_over: bool 
+
 func _ready() -> void:
 	get_viewport().physics_object_picking_first_only = true
 	get_viewport().physics_object_picking_sort = true
+	is_setup_phase_over = true
 	deck.load_deck()
 	for i in 8: # draw 8 cards from deck on startup
 		deck.draw_card()
@@ -17,7 +20,6 @@ func _ready() -> void:
 		new_caravan.owned_by = "player"
 		new_caravan.name = "player_caravan_%d" %[i]
 		add_child(new_caravan)
-		#new_caravan.request_selected_card.connect(on_request_selected_card)
 		new_caravan.position = Vector2(i*240,360)
 
 	for i in 3: # create 3 opponent caravans
@@ -29,6 +31,7 @@ func _ready() -> void:
 		new_caravan.position = Vector2(i*240,-8)
 
 
+# this function is called when projecting a copy of selected card to the caravan
 func on_request_selected_card():
 	if hand.selected_card == null:
 		print("There is no selected card to send")
@@ -38,15 +41,17 @@ func on_request_selected_card():
 
 
 func _on_draw_card_button_pressed() -> void:
-	var caravan_node = get_node("player_caravan_2")
-	caravan_node.add_card_to_caravan()
+	pass
 
+
+# called when you click on a caravan with a card selected from hand
 func add_card_to_caravan(node_name: String):
 	var card: Card = hand.play_card()
 	card.toggle_highlight()
 	var caravan_node = get_node(node_name)
 	caravan_node.add_card_to_caravan(card)
-	
+	if is_setup_phase_over:
+		deck.draw_card()
 
 func _on_discard_card_button_pressed() -> void:
 	hand._discard()

@@ -84,7 +84,7 @@ func on_card_clicked(clicked_card: Card):
 		$"../discard_card_button".disabled = true
 		$"../discard_tract_button".disabled = false
 
-
+# this code is ran when the player clicks on a caravan with a valid selected card from hand
 func play_card() -> Card:
 	if selected_card == null:
 		print ("Error trying to play card when there is no selected card")
@@ -93,6 +93,8 @@ func play_card() -> Card:
 	var played_card: Card = selected_card
 	selected_card = null
 	_update_cards()
+	$"../discard_card_button".disabled = true # at some point clean up this code so you don't enable and disable the buttons like this
+	$"../discard_tract_button".disabled = false
 	return played_card
 
 
