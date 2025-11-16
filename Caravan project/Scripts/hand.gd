@@ -85,8 +85,15 @@ func on_card_clicked(clicked_card: Card):
 		$"../discard_tract_button".disabled = false
 
 
-func play_selected_card():
-	pass
+func play_card() -> Card:
+	if selected_card == null:
+		print ("Error trying to play card when there is no selected card")
+	selected_card.visible = false
+	remove_child(selected_card)
+	var played_card: Card = selected_card
+	selected_card = null
+	_update_cards()
+	return played_card
 
 
 # when you hover over a caravan tract

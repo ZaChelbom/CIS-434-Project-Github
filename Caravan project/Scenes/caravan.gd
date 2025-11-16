@@ -11,8 +11,8 @@ var is_outbidding: bool
 
 var most_recent_number_card: Card
 var selected_card_from_hand: Card
+var is_selected_card_valid: bool
 
-signal request_selected_card()
 
 @export var caravan_curve: Curve
 @export var rotation_curve: Curve
@@ -27,15 +27,32 @@ const CARD_SCENE_PATH = "res://Scenes/card.tscn" #temp
 
 func _ready() -> void:
 	caravan_value = 0
+	most_recent_number_card = null
+
 	_update_caravan_properties()
 	pass # Replace with function body.
 
 
 func add_card_to_caravan(new_card: Card):
-	# var card_scene = preload(CARD_SCENE_PATH)
-	# var new_card = card_scene.instantiate()
+	new_card.visible = true
 	$tract.add_child(new_card)
+
+# this is so bad but I dont care rn
+	if most_recent_number_card != null and new_card.card_type != "face card":
+		print(most_recent_number_card.value)
+		if new_card.value > most_recent_number_card.value:
+			caravan_direction = "ascending"
+			
+		else:
+			print("HERE")
+			caravan_direction = "descending"
+		
+		most_recent_number_card = new_card
+	else:
+		if new_card.card_type == "number card":
+			most_recent_number_card = new_card
 	_update_cards()
+	_update_caravan_properties()
 
 
 func _update_cards():
@@ -63,9 +80,6 @@ func _update_cards():
 
 		card.position = Vector2(final_x,final_y)
 		card.rotation_degrees = max_rotation_degrees * rot_multiplier
-
-
-
 
 
 func _update_caravan_properties():
@@ -146,10 +160,14 @@ func check_placement_validity() -> bool:
 func project_placement():
 	if check_placement_validity() == false:
 		print("Cannot place card here")
+		is_selected_card_valid = false
 		return
 	else:
 		print("Valid card placement")
-		add_card_to_caravan(selected_card_from_hand)
+		#add_card_to_caravan(selected_card_from_hand)
+		$tract.add_child(selected_card_from_hand)
+		_update_cards()
+		is_selected_card_valid = true
 	
 
 
@@ -157,6 +175,7 @@ func _on_back_panel_mouse_entered() -> void:
 	var parent_node = get_parent()
 	var refrence_card: Card = parent_node.on_request_selected_card()
 	if refrence_card == null:
+		is_selected_card_valid = false
 		return
 	else:
 		var card_scene = preload(CARD_SCENE_PATH)
@@ -173,13 +192,32 @@ func _on_back_panel_mouse_entered() -> void:
 
 
 func _on_back_panel_mouse_exited() -> void:
-	#print("Mouse exited: %s" %[self.name])
-	#remove the selected_card from hand from the caravan and set it back to null
+	_remove_projection()
+	pass # Replace with function body.
+
+
+func _on_back_panel_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.is_pressed():
+			if is_selected_card_valid != true:
+				return
+			
+			print("Caravan clicked!")
+			var parent_node = get_parent()
+			_remove_projection()
+			# ask parent to place the selected card in the hand
+			parent_node.add_card_to_caravan(self.name)
+			
+			pass
+		
+
+func _remove_projection():
 	if selected_card_from_hand == null:
 		return
 	
-	selected_card_from_hand.reparent(get_tree().root)
+	#selected_card_from_hand.reparent(get_tree().root)
+	$tract.remove_child(selected_card_from_hand)
 	selected_card_from_hand.queue_free()
 	selected_card_from_hand = null
+	is_selected_card_valid = false
 	_update_cards()
-	pass # Replace with function body.

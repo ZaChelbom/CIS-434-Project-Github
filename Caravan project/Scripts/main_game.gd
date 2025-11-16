@@ -41,10 +41,12 @@ func _on_draw_card_button_pressed() -> void:
 	var caravan_node = get_node("player_caravan_2")
 	caravan_node.add_card_to_caravan()
 
-func add_to_caravan():
-	var caravan_node = get_node("player_caravan_2")
-	caravan_node.add_card_to_caravan()
-	pass
+func add_card_to_caravan(node_name: String):
+	var card: Card = hand.play_card()
+	card.toggle_highlight()
+	var caravan_node = get_node(node_name)
+	caravan_node.add_card_to_caravan(card)
+	
 
 func _on_discard_card_button_pressed() -> void:
 	hand._discard()
