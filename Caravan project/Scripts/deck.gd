@@ -54,8 +54,9 @@ func draw_card():
 	var card_image_path = "res://Assets/%s.png" %[card_drawn_name]
 	var card_scene = preload(CARD_SCENE_PATH)
 	var card_database = preload(CARD_DATABASE_PATH) # this is dumb and bad I should have scrapped this
-	var new_card = card_scene.instantiate()
+	var new_card: Card = card_scene.instantiate()
 	new_card.get_node("CardIMGfront").texture = load(card_image_path)
+	new_card.is_projection = false
 	new_card.card_name = card_drawn_name
 	new_card.value = card_database.CARDS[card_drawn_name][0]
 	new_card.suit = card_database.CARDS[card_drawn_name][1]

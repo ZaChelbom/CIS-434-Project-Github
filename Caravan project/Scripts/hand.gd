@@ -75,6 +75,12 @@ func on_card_clicked(clicked_card: Card):
 
 		clicked_card.toggle_highlight()
 		selected_card = clicked_card
+		if selected_card.card_type != "number card" and selected_card.card_type != "queen":
+			#get_parent().disable_mouse_inputs_for_caravans()
+			pass
+		else:
+			#get_parent().enable_mouse_inputs_for_caravans()
+			pass
 		if $"../Deck".deck.size() != 0:
 			$"../discard_card_button".disabled = false
 		$"../discard_tract_button".disabled = true

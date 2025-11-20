@@ -11,7 +11,9 @@ var is_outbidding: bool
 
 var most_recent_number_card: Card
 var selected_card_from_hand: Card
+var saved_hovered_card: Card
 var is_selected_card_valid: bool
+
 
 
 @export var caravan_curve: Curve
@@ -28,6 +30,7 @@ const CARD_SCENE_PATH = "res://Scenes/card.tscn" #temp
 func _ready() -> void:
 	caravan_value = 0
 	most_recent_number_card = null
+	
 
 	_update_caravan_properties()
 	pass # Replace with function body.
@@ -44,6 +47,14 @@ func add_card_to_caravan(new_card: Card):
 			caravan_direction = "descending"
 
 	$tract.add_child(new_card)
+	if saved_hovered_card != null:
+		var new_card_index: int = saved_hovered_card.get_index() + 1
+		$tract.move_child(new_card, new_card_index)
+		saved_hovered_card = null
+	new_card.validate_face_card.connect(_on_validate_face_card) #connect card signal
+	new_card.remove_face_card_projection.connect(_remove_projection)
+	new_card.is_in_hand = false
+
 	if new_card.card_type == "number card":
 		most_recent_number_card = new_card
 
@@ -56,8 +67,6 @@ func add_card_to_caravan(new_card: Card):
 
 	_update_cards()
 	_update_caravan_properties()
-
-
 
 
 func _update_cards():
@@ -73,6 +82,7 @@ func _update_cards():
 
 	for i in cards:
 		var card := $tract.get_child(i)
+		print("Card type: %s" %[card.card_type])
 		var x_multiplier := caravan_curve.sample(1.0/ (cards-1) * i)
 		var rot_multiplier := rotation_curve.sample(1.0 / (cards-1) *i)
 
@@ -190,67 +200,134 @@ func _value_search() -> bool:
 	return true
 
 
+
+
+
 func project_placement():
 	if check_placement_validity() == false:
-		print("Cannot place card here")
+		#print("Cannot place card here")
 		is_selected_card_valid = false
 		return
 	else:
 		print("Valid card placement")
 		#add_card_to_caravan(selected_card_from_hand)
-		$tract.add_child(selected_card_from_hand)
-		_update_cards()
-		is_selected_card_valid = true
-	
+		if selected_card_from_hand.card_type == "number card" or "queen":
+			$tract.add_child(selected_card_from_hand)
+			_update_cards()
+			is_selected_card_valid = true
 
 
+
+func _on_validate_face_card(hovered_card: Card):
+	var parent_node = get_parent()
+	var refrence_card: Card = parent_node.on_request_selected_card()
+	if refrence_card == null:
+		is_selected_card_valid = false
+		return
+	elif refrence_card.card_type == "number card" or refrence_card.card_type == "queen":
+		return # if number card or queen return
+	else:
+		_copy_refrence_card(refrence_card)
+
+		if check_placement_validity_face_cards(hovered_card) == false:
+			print("Cannot place card here")
+			is_selected_card_valid = false
+			return
+		else:
+			saved_hovered_card = hovered_card
+			$tract.add_child(selected_card_from_hand)
+			#move_child(selected_card_from_hand, hovered_card.get_index())
+			selected_card_from_hand.position = hovered_card.position
+			selected_card_from_hand.position.x =+ 15
+			is_selected_card_valid = true
+			
+
+# This checks the placement validity of face cards excluding the queen
+func check_placement_validity_face_cards(hovered_card: Card) -> bool:
+	match selected_card_from_hand.card_type:
+		"king":
+			if hovered_card.card_type == "number card" or hovered_card.card_type == "king":
+				return true
+			else:
+				return false
+		"jack":
+			if hovered_card.card_type == "jack" or hovered_card.card_type == "joker":
+				return false
+			else:
+				return true
+		"joker":
+			if hovered_card.card_type != "number card":
+				return false
+			else: 
+				return true
+		_: 
+			return false
+
+
+# This function triggers the placement projection for number cards and queens
 func _on_back_panel_mouse_entered() -> void:
 	var parent_node = get_parent()
 	var refrence_card: Card = parent_node.on_request_selected_card()
 	if refrence_card == null:
 		is_selected_card_valid = false
 		return
+	elif refrence_card.card_type != "number card" and refrence_card.card_type != "queen":
+		# All face cards except for queens return
+		return
 	else:
-		var card_scene = preload(CARD_SCENE_PATH)
-		selected_card_from_hand = card_scene.instantiate()
-		selected_card_from_hand.card_name = refrence_card.card_name
-		selected_card_from_hand.value = refrence_card.value
-		selected_card_from_hand.suit = refrence_card.suit
-		selected_card_from_hand.card_type = refrence_card.card_type
-		selected_card_from_hand.is_in_hand = false
-		var card_image_path = "res://Assets/%s.png" %[selected_card_from_hand.card_name]
-		selected_card_from_hand.get_node("CardIMGfront").texture = load(card_image_path)
-		selected_card_from_hand.toggle_highlight()
+		_copy_refrence_card(refrence_card)
 		project_placement()
+
+
+# this functions sets the selected_card_from_hand global variable
+func _copy_refrence_card(refrence_card: Card):
+	var card_scene = preload(CARD_SCENE_PATH)
+	if selected_card_from_hand != null:
+		selected_card_from_hand.reparent(get_tree().root)
+		selected_card_from_hand.queue_free()
+		selected_card_from_hand = null
+		
+	selected_card_from_hand = card_scene.instantiate()
+	selected_card_from_hand.card_name = refrence_card.card_name
+	selected_card_from_hand.value = refrence_card.value
+	selected_card_from_hand.suit = refrence_card.suit
+	selected_card_from_hand.card_type = refrence_card.card_type
+	selected_card_from_hand.is_in_hand = false
+	selected_card_from_hand.is_projection = true
+	var card_image_path = "res://Assets/%s.png" %[selected_card_from_hand.card_name]
+	selected_card_from_hand.get_node("CardIMGfront").texture = load(card_image_path)
+	selected_card_from_hand.toggle_highlight()
+	selected_card_from_hand.get_node("Area2D").input_pickable = false
+	
 
 
 func _on_back_panel_mouse_exited() -> void:
 	_remove_projection()
-	pass # Replace with function body.
 
-
+# If your selected card is valid ask the game script to move the card from
+# your hand to this caravan
 func _on_back_panel_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.is_pressed():
 			if is_selected_card_valid != true:
 				return
 			
-			print("Caravan clicked!")
 			var parent_node = get_parent()
 			_remove_projection()
 			# ask parent to place the selected card in the hand
 			parent_node.add_card_to_caravan(self.name)
-			
-			pass
-		
+	
 
+# This function removes the projected card from the caravan
 func _remove_projection():
+	#is_validation_in_use = false
+	
 	if selected_card_from_hand == null:
 		return
-	
-	#selected_card_from_hand.reparent(get_tree().root)
-	$tract.remove_child(selected_card_from_hand)
+	is_selected_card_valid = false
+	selected_card_from_hand.reparent(get_tree().root)
+	#$tract.remove_child(selected_card_from_hand)
 	selected_card_from_hand.queue_free()
 	selected_card_from_hand = null
-	is_selected_card_valid = false
+	
 	_update_cards()

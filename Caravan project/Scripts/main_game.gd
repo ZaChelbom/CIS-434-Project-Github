@@ -63,3 +63,26 @@ func _on_discard_tract_button_pressed() -> void:
 
 func _on_debug_reset_button_pressed() -> void:
 	get_tree().reload_current_scene()
+
+func disable_mouse_inputs_for_caravans():
+	for i in 3:
+		var caravan_name: String = "player_caravan_%d" %[i]
+		var node: Caravan = get_node(caravan_name)
+		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_IGNORE
+		
+	for k in 3:
+		var caravan_name: String = "cpu_caravan_%d" %[k]
+		var node: Caravan = get_node(caravan_name)
+		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_IGNORE
+		
+	
+func enable_mouse_inputs_for_caravans():
+	for i in 3:
+		var caravan_name: String = "player_caravan_%d" %[i]
+		var node: Caravan = get_node(caravan_name)
+		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_PASS
+		
+	for k in 3:
+		var caravan_name: String = "cpu_caravan_%d" %[k]
+		var node: Caravan = get_node(caravan_name)
+		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_PASS
