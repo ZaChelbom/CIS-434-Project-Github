@@ -9,7 +9,7 @@ var is_setup_phase_over: bool
 func _ready() -> void:
 	get_viewport().physics_object_picking_first_only = true
 	get_viewport().physics_object_picking_sort = true
-	is_setup_phase_over = false
+	is_setup_phase_over = true
 	deck.load_deck()
 	for i in 8: # draw 8 cards from deck on startup
 		deck.draw_card()

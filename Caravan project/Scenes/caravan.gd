@@ -9,7 +9,7 @@ var caravan_suit: String # clubs, diamonds, hearts, spades
 var caravan_direction: String # ascending, descending
 var is_outbidding: bool
 
-var most_recent_number_card: Card
+var most_recent_number_card_value: int
 var selected_card_from_hand: Card
 var saved_hovered_card: Card
 var is_selected_card_valid: bool
@@ -29,19 +29,27 @@ const CARD_SCENE_PATH = "res://Scenes/card.tscn" #temp
 
 func _ready() -> void:
 	caravan_value = 0
-	most_recent_number_card = null
-	
 
 	_update_caravan_properties()
 	pass # Replace with function body.
-
+	
+func _reset_caravan():
+	caravan_value = 0
+	is_sold = false
+	caravan_suit = ""
+	caravan_direction = ""
+	is_outbidding = false
+	
+	most_recent_number_card_value = 0
+	saved_hovered_card = null
+	is_selected_card_valid = false
 
 func add_card_to_caravan(new_card: Card):
 	new_card.visible = true
 	if $tract.get_child_count() == 0 and caravan_suit == "":
 		caravan_suit = new_card.suit
 	if $tract.get_child_count() == 1 and caravan_direction == "": # set direction of caravan
-		if new_card.value > most_recent_number_card.value:
+		if new_card.value > most_recent_number_card_value:
 			caravan_direction = "ascending"
 		else:
 			caravan_direction = "descending"
@@ -66,7 +74,7 @@ func add_card_to_caravan(new_card: Card):
 	new_card.is_in_hand = false
 
 	if new_card.card_type == "number card":
-		most_recent_number_card = new_card
+		most_recent_number_card_value = new_card.value
 
 	if new_card.card_type == "queen":
 		caravan_suit = new_card.suit
@@ -89,8 +97,29 @@ func add_card_to_caravan(new_card: Card):
 				break
 		new_card.value = sum
 			
+	if new_card.card_type == "jack":
+		var next_index = new_card.get_index() + 1
+		var removal_array: Array[Card]
+		removal_array.append($tract.get_child(new_card.get_index() - 1)) # add card behind jack to removal array
+		while(true):
+			var card: Card = $tract.get_child(next_index)
+			if card == null:
+				break
+			elif card.card_type == "king":
+				removal_array.append(card) # add king to removal array
+				next_index += 1
+			else:
+				break
 
-
+		removal_array.append(new_card)
+		for i in removal_array.size():
+			var card: Card = removal_array[i]
+			$tract.remove_child(card)
+			card.reparent(get_tree().root)
+			card.queue_free()
+			
+		if $tract.get_child_count() == 0:
+			_reset_caravan()
 
 	_update_cards()
 	_update_caravan_properties()
@@ -98,6 +127,8 @@ func add_card_to_caravan(new_card: Card):
 
 func _update_cards():
 	var cards := $tract.get_child_count()
+	if cards == 0:
+		return
 	var all_cards_size := Card.SIZE.y * cards + y_sep * (cards-1)
 	var final_y_sep := y_sep
 
@@ -182,20 +213,20 @@ func check_placement_validity() -> bool:
 
 		if selected_card_from_hand.card_type == "number card":
 			if caravan_direction == "": # aka there is only one card in the tract
-				if selected_card_from_hand.value == most_recent_number_card.value:
+				if selected_card_from_hand.value == most_recent_number_card_value:
 					return false
 				else:
 					return true
 			else: # first check direction, then check suit
 				if caravan_direction == "ascending":   # "descending"
-					if selected_card_from_hand.value > most_recent_number_card.value and selected_card_from_hand.suit != caravan_suit: 
+					if selected_card_from_hand.value > most_recent_number_card_value and selected_card_from_hand.suit != caravan_suit: 
 						return true
 					elif caravan_suit == selected_card_from_hand.suit: # now check suit
 						return _value_search() # ensure that there is not already a card with the same value
 					else:
 						return false
 				else: # if caravan direction is descending
-					if selected_card_from_hand.value < most_recent_number_card.value and selected_card_from_hand.suit != caravan_suit:
+					if selected_card_from_hand.value < most_recent_number_card_value and selected_card_from_hand.suit != caravan_suit:
 						return true
 					else: # now check suit
 						if caravan_suit == selected_card_from_hand.suit:
@@ -280,7 +311,7 @@ func check_placement_validity_face_cards(hovered_card: Card) -> bool:
 			else:
 				return false
 		"jack":
-			if hovered_card.card_type == "jack" or hovered_card.card_type == "joker":
+			if hovered_card.card_type != "number card":
 				return false
 			else:
 				return true
@@ -355,7 +386,6 @@ func _remove_projection():
 		return
 	is_selected_card_valid = false
 	selected_card_from_hand.reparent(get_tree().root)
-	#$tract.remove_child(selected_card_from_hand)
 	selected_card_from_hand.queue_free()
 	selected_card_from_hand = null
 	
