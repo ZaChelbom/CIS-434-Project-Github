@@ -311,10 +311,10 @@ func check_placement_validity_face_cards(hovered_card: Card) -> bool:
 			else:
 				return false
 		"jack":
-			if hovered_card.card_type != "number card":
-				return false
-			else:
+			if hovered_card.card_type == "number card" or hovered_card.card_type == "king":
 				return true
+			else:
+				return false
 		"joker":
 			if hovered_card.card_type != "number card":
 				return false
