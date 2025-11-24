@@ -246,6 +246,8 @@ func project_placement():
 
 
 func _on_validate_face_card(hovered_card: Card):
+	if get_parent().is_setup_phase_over == false: # if setup phase is not over no more than 1 number card can be placed in a caravan
+			return false
 	var parent_node = get_parent()
 	var refrence_card: Card = parent_node.on_request_selected_card()
 	if refrence_card == null:
