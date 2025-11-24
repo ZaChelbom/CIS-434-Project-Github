@@ -35,6 +35,68 @@ func add_card_to_caravan():
 	$tract.add_child(new_card)
 	_update_cards()
 
+func add_card_to_cpu_caravan(new_card: Card, caravan_index: int):
+	var caravan := get_child(caravan_index)
+	var card_count := caravan.get_child_count()
+	
+	# set suit if caravan is empty 
+	if card_count == 0 and caravan_suit == "":
+		caravan_suit = new_card.suit
+		caravan.add_child(new_card)
+		
+	# set direction if this is the second card
+	if card_count == 1 and caravan_direction == "":
+		if new_card.value > most_recent_number_card.value:
+			caravan_direction = "ascending"
+		else:
+			caravan_direction = "descending"
+			
+	# move card to correct position
+	var new_card_index := saved_hovered_card.get_index() + 1
+	caravan.move_child(new_card, new_card_index)
+	# connect signals
+	new_card.validate_face_card.connect(_on_validate_face_card)
+	new_card.remove_face_card_projection.connect(_remove_projection)
+	new_card.is_in_cpu_hand = false
+	
+	# track most recent number card
+	if new_card.card_type == "number card":
+		most_recent_number_card = new_card
+	
+	_update_cards()
+	_update_caravan_properties()
+
+func add_card_to_cpu_caravan(new_card: Card, caravan_index: int):
+	var caravan := get_child(caravan_index)
+	var card_count := caravan.get_child_count()
+	
+	# set suit if caravan is empty 
+	if card_count == 0 and caravan_suit == "":
+		caravan_suit = new_card.suit
+		caravan.add_child(new_card)
+		
+	# set direction if this is the second card
+	if card_count == 1 and caravan_direction == "":
+		if new_card.value > most_recent_number_card.value:
+			caravan_direction = "ascending"
+		else:
+			caravan_direction = "descending"
+			
+	# move card to correct position
+	var new_card_index := saved_hovered_card.get_index() + 1
+	caravan.move_child(new_card, new_card_index)
+	# connect signals
+	new_card.validate_face_card.connect(_on_validate_face_card)
+	new_card.remove_face_card_projection.connect(_remove_projection)
+	new_card.is_in_cpu_hand = false
+	
+	# track most recent number card
+	if new_card.card_type == "number card":
+		most_recent_number_card = new_card
+	
+	_update_cards()
+	_update_caravan_properties()
+
 
 func _update_cards():
 	var cards := $tract.get_child_count()
