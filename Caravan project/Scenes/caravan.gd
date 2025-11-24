@@ -124,6 +124,35 @@ func add_card_to_caravan(new_card: Card):
 	_update_cards()
 	_update_caravan_properties()
 
+# adds card to cpu caravan 
+func add_card_to_cpu_caravan(new_card: Card, caravan_index: int):
+	var caravan := get_child(caravan_index)
+	var card_count := caravan.get_child_count()
+	
+	# set suit
+	if card_count == 0 and caravan_suit == "":
+		caravan_suit = new_card.suit
+		# Add card to caravan
+		caravan.add_child(new_card)
+		
+		# set direction
+		if card_count == 1 and caravan_direction == "" and new_card.card_type == "number card":
+			if new_card.value > most_recent_number_card_value:
+				caravan_direction = "ascending"
+			else:
+				caravan_direction = "descending"
+	
+	var new_card_index := saved_hovered_card.get_index() + 1
+	caravan.move_child(new_card, new_card_index)
+	
+	new_card.is_in_cpu_hand = false
+	
+	# keep most recent value
+	if new_card.card_type == "number card":
+		most_recent_number_card_value = new_card.value
+	
+	_update_cards()
+	_update_caravan_properties()
 
 func _update_cards():
 	var cards := $tract.get_child_count()
