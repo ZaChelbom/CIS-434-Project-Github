@@ -49,6 +49,16 @@ func add_card_to_caravan(new_card: Card):
 	$tract.add_child(new_card)
 	if saved_hovered_card != null:
 		var new_card_index: int = saved_hovered_card.get_index() + 1
+		if new_card.card_type == "king":
+			while(true):
+				var card: Card = $tract.get_child(new_card_index)
+				if card == null:
+					break
+				elif card.card_type != "king": # if the next card is not a king break
+					break
+				else: # if the next card is a king increment to the next index
+					new_card_index += 1
+
 		$tract.move_child(new_card, new_card_index)
 		saved_hovered_card = null
 	new_card.validate_face_card.connect(_on_validate_face_card) #connect card signal
@@ -64,6 +74,23 @@ func add_card_to_caravan(new_card: Card):
 			caravan_direction = "descending"
 		else:
 			caravan_direction = "ascending"
+
+	if new_card.card_type == "king":
+		var prev_index = new_card.get_index() - 1
+		var sum := 0
+		while(true):
+			var card: Card = $tract.get_child(prev_index)
+			if card.card_type == "king" or card.card_type == "number card":
+				sum += card.value
+				if card.card_type == "number card":
+					break
+				prev_index -= 1 # decrement to previous index if king
+			else:
+				break
+		new_card.value = sum
+			
+
+
 
 	_update_cards()
 	_update_caravan_properties()
