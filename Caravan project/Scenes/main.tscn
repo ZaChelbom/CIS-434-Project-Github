@@ -1,10 +1,21 @@
+<<<<<<< Updated upstream
 [gd_scene load_steps=8 format=3 uid="uid://yedp7ci4l25n"]
+=======
+[gd_scene load_steps=11 format=3 uid="uid://yedp7ci4l25n"]
+>>>>>>> Stashed changes
 
 [ext_resource type="Script" uid="uid://cn7h1gstgci4e" path="res://Scripts/main_game.gd" id="1_kry3j"]
+[ext_resource type="Script" uid="uid://bahdqa68atudo" path="res://Scenes/cpu_hand.gd" id="3_6bp64"]
 [ext_resource type="Script" uid="uid://b7wbff0yr6ivd" path="res://Scripts/hand.gd" id="3_21xkr"]
 [ext_resource type="Texture2D" uid="uid://byni4lyif7eth" path="res://Assets/cardHachi.png" id="3_jjvhh"]
 [ext_resource type="Script" uid="uid://11olwl8tcyf" path="res://Scripts/deck.gd" id="5_21xkr"]
+<<<<<<< Updated upstream
 [ext_resource type="Texture2D" uid="uid://ctckemithdhsi" path="res://Assets/table.jpg" id="7_6bp64"]
+=======
+[ext_resource type="Script" uid="uid://l4g1xje1x6mm" path="res://Scenes/cpu_deck.gd" id="6_344ge"]
+[ext_resource type="Texture2D" uid="uid://bm8p2apptj7pl" path="res://Assets/cardChii.png" id="7_ynf5e"]
+[ext_resource type="Script" uid="uid://6rthqkc05bxm" path="res://Scenes/cpu_controller.gd" id="8_344ge"]
+>>>>>>> Stashed changes
 
 [sub_resource type="Curve" id="Curve_kry3j"]
 _data = [Vector2(0, 0), 0.0, 0.64860123, 0, 0, Vector2(0.5054348, 0.123595595), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.72359586, 0.0, 0, 0]
@@ -61,6 +72,16 @@ script = ExtResource("3_21xkr")
 hand_curve = SubResource("Curve_kry3j")
 rotation_curve = SubResource("Curve_21xkr")
 
+[node name="CPUHand" type="ColorRect" parent="."]
+offset_left = 756.0
+offset_top = 38.0
+offset_right = 1116.0
+offset_bottom = 126.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+color = Color(0, 0, 0, 0)
+script = ExtResource("3_6bp64")
+
 [node name="draw_card_button" type="Button" parent="."]
 offset_left = 792.0
 offset_top = 552.0
@@ -107,6 +128,28 @@ theme_override_font_sizes/normal_font_size = 22
 text = "Deck: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CPUDeck" type="Node2D" parent="."]
+position = Vector2(1184, 464)
+script = ExtResource("6_344ge")
+
+[node name="CPUDeckImage" type="Sprite2D" parent="CPUDeck"]
+position = Vector2(0.99999994, -353.99997)
+scale = Vector2(0.176, 0.18181819)
+texture = ExtResource("7_ynf5e")
+
+[node name="CPUDeckLabel" type="RichTextLabel" parent="CPUDeck"]
+offset_left = -53.0
+offset_top = -289.0
+offset_right = 59.0
+offset_bottom = -257.0
+theme_override_font_sizes/normal_font_size = 22
+text = "Deck: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CPUController" type="Node2D" parent="."]
+script = ExtResource("8_344ge")
 
 [connection signal="pressed" from="draw_card_button" to="." method="_on_draw_card_button_pressed"]
 [connection signal="pressed" from="discard_card_button" to="." method="_on_discard_card_button_pressed"]
