@@ -44,6 +44,72 @@ func _reset_caravan():
 	saved_hovered_card = null
 	is_selected_card_valid = false
 
+
+# If joker is placed on a number card, all of the other cards of this value are removed from the table, 
+# except for the card it was placed on. 
+func remove_num_cards_of_specified_value(number_card: Card):
+	var removal_array: Array[Card]
+	var total_cards := $tract.get_child_count()
+	for i in total_cards: # iterate through all of the cards in the tract
+		var card: Card = $tract.get_child(i)
+		# add cards that match the value of the number card to an array, except for the number card it was played on
+		if card != null and card != number_card and card.card_type == "number card" and card.value == number_card.value:
+			removal_array.append(card)
+			var j = 1
+			while(true): # if there are kings in front of the number card added, add those aswell
+				var next_card: Card = $tract.get_child(i + j)
+				if next_card != null and next_card.card_type == "king":
+					removal_array.append(next_card)
+					j += 1
+				else:
+					break
+		else:
+			continue
+	
+		# delete all cards in the array at the end of the end of the function
+		for k in removal_array.size():
+			$tract.remove_child(removal_array[k])
+			card.reparent(get_tree().root)
+			card.queue_free()
+			
+		if $tract.get_child_count() == 0:
+			_reset_caravan()
+		_update_cards()
+		_update_caravan_properties()
+	
+	
+# If joker is placed on an Ace, it removes all number cards of the Ace's suit, excluding the ace it was played on
+func remove_num_cards_of_specified_suit(ace: Card):
+	var removal_array: Array[Card]
+	var total_cards := $tract.get_child_count()
+	for i in total_cards: # iterate through all of the cards in the tract
+		var card: Card = $tract.get_child(i)
+		# add number cards that match the suit of the ace to an array, except for the ace it was played on
+		if card != null and card != ace and card.card_type == "number card" and card.suit == ace.suit:
+			removal_array.append(card)
+			var j = 1
+			while(true): # if there are kings in front of the number card added, add those aswell
+				var next_card: Card = $tract.get_child(i + j)
+				if next_card != null and next_card.card_type == "king":
+					removal_array.append(next_card)
+					j += 1
+				else:
+					break
+		else:
+			continue
+	
+		# delete all cards in the array at the end of the end of the function
+		for k in removal_array.size():
+			$tract.remove_child(removal_array[k])
+			card.reparent(get_tree().root)
+			card.queue_free()
+		
+		if $tract.get_child_count() == 0:
+			_reset_caravan()
+		_update_cards()
+		_update_caravan_properties()
+
+
 func add_card_to_caravan(new_card: Card):
 	new_card.visible = true
 	if $tract.get_child_count() == 0 and caravan_suit == "":
@@ -118,9 +184,12 @@ func add_card_to_caravan(new_card: Card):
 			card.reparent(get_tree().root)
 			card.queue_free()
 			
-		if $tract.get_child_count() == 0:
-			_reset_caravan()
-
+	if new_card.card_type == "joker":
+		var card_before_joker: Card = $tract.get_child(new_card.get_index() - 1)
+		get_parent().joker_played(card_before_joker)
+		
+	if $tract.get_child_count() == 0:
+		_reset_caravan()
 	_update_cards()
 	_update_caravan_properties()
 
@@ -140,7 +209,7 @@ func _update_cards():
 
 	for i in cards:
 		var card := $tract.get_child(i)
-		print("Card type: %s" %[card.card_type])
+		#print("Card type: %s" %[card.card_type])
 		var x_multiplier := caravan_curve.sample(1.0/ (cards-1) * i)
 		var rot_multiplier := rotation_curve.sample(1.0 / (cards-1) *i)
 

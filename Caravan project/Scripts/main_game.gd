@@ -64,6 +64,7 @@ func _on_discard_tract_button_pressed() -> void:
 func _on_debug_reset_button_pressed() -> void:
 	get_tree().reload_current_scene()
 
+# This function is a hacky workaround to a collision issue
 func disable_mouse_inputs_for_caravans():
 	for i in 3:
 		var caravan_name: String = "player_caravan_%d" %[i]
@@ -75,7 +76,7 @@ func disable_mouse_inputs_for_caravans():
 		var node: Caravan = get_node(caravan_name)
 		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_IGNORE
 		
-	
+# This function is a hacky workaround to a collision issue
 func enable_mouse_inputs_for_caravans():
 	for i in 3:
 		var caravan_name: String = "player_caravan_%d" %[i]
@@ -86,3 +87,21 @@ func enable_mouse_inputs_for_caravans():
 		var caravan_name: String = "cpu_caravan_%d" %[k]
 		var node: Caravan = get_node(caravan_name)
 		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_PASS
+
+func joker_played(card_before_joker: Card):
+	for i in 2:
+		for j in 3:
+			var caravan_name: String
+			if i == 0:
+				caravan_name = "player_caravan_%d" %[j]
+			else:
+				caravan_name = "cpu_caravan_%d" %[j]
+			
+			var node: Caravan = get_node(caravan_name)
+			if card_before_joker.value == 1: # if the joker was played on an ace 
+				#remove all num cards of suit of ace, except for the card it was placed on
+				node.remove_num_cards_of_specified_suit(card_before_joker)
+			else:
+				#remove value of number card 2-10, except for the card it was placed on
+				node.remove_num_cards_of_specified_value(card_before_joker)
+		
