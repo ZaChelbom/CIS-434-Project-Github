@@ -126,11 +126,21 @@ func remove_num_cards_of_specified_suit(ace: Card):
 		_update_caravan_properties()
 
 
+func count_number_cards() -> int:
+	var total_cards := $tract.get_child_count()
+	var number_card_sum := 0
+	for i in total_cards:
+		var card: Card = $tract.get_child(i)
+		if card.card_type == "number card":
+			number_card_sum += 1
+	return number_card_sum
+
+
 func add_card_to_caravan(new_card: Card):
 	new_card.visible = true
 	if $tract.get_child_count() == 0 and caravan_suit == "":
 		caravan_suit = new_card.suit
-	if $tract.get_child_count() == 1 and caravan_direction == "": # set direction of caravan
+	if count_number_cards() == 1 and caravan_direction == "" and new_card.card_type == "number card": # set direction of caravan
 		if new_card.value > most_recent_number_card_value:
 			caravan_direction = "ascending"
 		else:
