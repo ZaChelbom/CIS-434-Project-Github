@@ -1,9 +1,9 @@
 class_name Caravan
 extends Node2D
 
-var owned_by: String
+var owned_by: String # player or cpu
 
-var caravan_value: int# the sum value of the caravan
+var caravan_value: int # the sum value of the caravan
 var is_sold: bool
 var caravan_suit: String # clubs, diamonds, hearts, spades
 var caravan_direction: String # ascending, descending
@@ -33,7 +33,20 @@ func _ready() -> void:
 	_update_caravan_properties()
 	pass # Replace with function body.
 	
-func _reset_caravan():
+func reset_caravan():
+	var total_cards := $tract.get_child_count()
+	var removal_array: Array[Card]
+	if total_cards != 0:
+		var card: Card
+		for i in total_cards: # iterate through all of the cards in the tract
+			card = $tract.get_child(i)
+			removal_array.append(card)
+
+		for k in removal_array.size():
+			$tract.remove_child(removal_array[k])
+			card.reparent(get_tree().root)
+			card.queue_free()
+	
 	caravan_value = 0
 	is_sold = false
 	caravan_suit = ""
@@ -43,6 +56,9 @@ func _reset_caravan():
 	most_recent_number_card_value = 0
 	saved_hovered_card = null
 	is_selected_card_valid = false
+
+	_update_cards()
+	_update_caravan_properties()
 
 
 # If joker is placed on a number card, all of the other cards of this value are removed from the table, 
@@ -73,7 +89,7 @@ func remove_num_cards_of_specified_value(number_card: Card):
 			card.queue_free()
 			
 		if $tract.get_child_count() == 0:
-			_reset_caravan()
+			reset_caravan()
 		_update_cards()
 		_update_caravan_properties()
 	
@@ -105,7 +121,7 @@ func remove_num_cards_of_specified_suit(ace: Card):
 			card.queue_free()
 		
 		if $tract.get_child_count() == 0:
-			_reset_caravan()
+			reset_caravan()
 		_update_cards()
 		_update_caravan_properties()
 
@@ -189,7 +205,7 @@ func add_card_to_caravan(new_card: Card):
 		get_parent().joker_played(card_before_joker)
 		
 	if $tract.get_child_count() == 0:
-		_reset_caravan()
+		reset_caravan()
 	_update_cards()
 	_update_caravan_properties()
 
@@ -271,6 +287,9 @@ func _update_caravan_properties():
 # go through this later and condense if else statements into elif statements where possible
 # will need to double check FNV again to be sure but the logic for placing cards of the same suit is so strange
 func check_placement_validity() -> bool:
+	# makes it so the player cannot place number cards on CPU tracts
+	if selected_card_from_hand.card_type == "number card" and owned_by == "cpu":
+		return false
 	if $tract.get_child_count() == 0: # when there are no cards in the caravan
 		if selected_card_from_hand.card_type != "number card": # cannot place face cards when no number cards are in caravan
 			return false
@@ -439,6 +458,9 @@ func _on_back_panel_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.is_pressed():
 			if is_selected_card_valid != true:
+				var parent = get_parent()
+				if parent.on_request_selected_card() == null and owned_by == "player" and $tract.get_child_count() > 0:
+					parent.caravan_clicked_with_no_card(self.name)
 				return
 			
 			var parent_node = get_parent()
@@ -459,3 +481,11 @@ func _remove_projection():
 	selected_card_from_hand = null
 	
 	_update_cards()
+
+
+func toggle_highlight_caravan():
+	if $selection_outline.visible == true:
+		$selection_outline.visible = false
+	else:
+		$selection_outline.visible = true
+	pass

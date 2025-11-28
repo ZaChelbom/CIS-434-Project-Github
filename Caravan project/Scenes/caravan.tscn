@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://xqmc3mws3p5c"]
+[gd_scene load_steps=7 format=3 uid="uid://xqmc3mws3p5c"]
 
 [ext_resource type="Script" uid="uid://bn3kt0qik5p30" path="res://Scenes/caravan.gd" id="1_5cenb"]
 
@@ -26,6 +26,13 @@ border_width_bottom = 4
 border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 12
 corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lgjcq"]
+bg_color = Color(0, 0.88235295, 0.3764706, 0.3529412)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [node name="Caravan" type="Node2D"]
 script = ExtResource("1_5cenb")
@@ -151,6 +158,16 @@ offset_bottom = 400.0
 mouse_filter = 2
 mouse_behavior_recursive = 1
 color = Color(1, 1, 1, 0)
+
+[node name="selection_outline" type="Panel" parent="."]
+visible = false
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 208.0
+offset_bottom = 360.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_lgjcq")
 
 [connection signal="gui_input" from="back_panel" to="." method="_on_back_panel_gui_input"]
 [connection signal="mouse_entered" from="back_panel" to="." method="_on_back_panel_mouse_entered"]

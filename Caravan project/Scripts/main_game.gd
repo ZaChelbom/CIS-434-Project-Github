@@ -5,6 +5,7 @@ extends Node2D
 const CARAVAN_SCENE_PATH="res://Scenes/caravan.tscn"
 
 var is_setup_phase_over: bool 
+var caravan_selected_for_reset: String
 
 func _ready() -> void:
 	get_viewport().physics_object_picking_first_only = true
@@ -53,40 +54,24 @@ func add_card_to_caravan(node_name: String):
 	if is_setup_phase_over:
 		deck.draw_card()
 
+
 func _on_discard_card_button_pressed() -> void:
 	hand._discard()
 
 
 func _on_discard_tract_button_pressed() -> void:
-	print("this will eventually discard a tract")
+	if caravan_selected_for_reset != "":
+		var node: Caravan = get_node(caravan_selected_for_reset)
+		node.reset_caravan()
+		remove_caravan_selection()
+		toggle_discard_tract_button()
+	else:
+		print("This should not happen")
 
 
 func _on_debug_reset_button_pressed() -> void:
 	get_tree().reload_current_scene()
 
-# This function is a hacky workaround to a collision issue
-func disable_mouse_inputs_for_caravans():
-	for i in 3:
-		var caravan_name: String = "player_caravan_%d" %[i]
-		var node: Caravan = get_node(caravan_name)
-		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_IGNORE
-		
-	for k in 3:
-		var caravan_name: String = "cpu_caravan_%d" %[k]
-		var node: Caravan = get_node(caravan_name)
-		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_IGNORE
-		
-# This function is a hacky workaround to a collision issue
-func enable_mouse_inputs_for_caravans():
-	for i in 3:
-		var caravan_name: String = "player_caravan_%d" %[i]
-		var node: Caravan = get_node(caravan_name)
-		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_PASS
-		
-	for k in 3:
-		var caravan_name: String = "cpu_caravan_%d" %[k]
-		var node: Caravan = get_node(caravan_name)
-		node.get_node("back_panel").mouse_filter = Control.MOUSE_FILTER_PASS
 
 func joker_played(card_before_joker: Card):
 	for i in 2:
@@ -105,3 +90,38 @@ func joker_played(card_before_joker: Card):
 				#remove value of number card 2-10, except for the card it was placed on
 				node.remove_num_cards_of_specified_value(card_before_joker)
 		
+# this function is called when a caravan is clicked on without a card selected
+func caravan_clicked_with_no_card(caravan: String):
+	var node: Caravan
+	if caravan_selected_for_reset == "": # if a caravan is not currently selected
+		caravan_selected_for_reset = caravan
+		node = get_node(caravan_selected_for_reset)
+		node.toggle_highlight_caravan()
+	elif caravan_selected_for_reset == caravan: # if you are clicking on the same caravan that is already selected
+		node = get_node(caravan_selected_for_reset)
+		node.toggle_highlight_caravan()
+		caravan_selected_for_reset = ""
+	else: # if there is currently a caravan selected
+		node = get_node(caravan_selected_for_reset) # get the node of the currently highlighted caravan
+		node.toggle_highlight_caravan() # toggle it's highlight
+		caravan_selected_for_reset = caravan # set the new highlighted caravan 
+		node = get_node(caravan_selected_for_reset)
+		node.toggle_highlight_caravan()
+
+	toggle_discard_tract_button() 
+
+
+func remove_caravan_selection():
+	if caravan_selected_for_reset != "": # if caravan selected for highlight exists, turn it off
+		var node: Caravan = get_node(caravan_selected_for_reset)
+		node.toggle_highlight_caravan()
+		caravan_selected_for_reset = ""
+	else:
+		return
+
+# this function enables/disables the discard tract button based on the existance of the caravan_selected_for_reset variable
+func toggle_discard_tract_button():
+	if caravan_selected_for_reset != "": # if a caravan selected for reset exists
+		$discard_tract_button.disabled = false
+	else: # if it does not exist
+		$discard_tract_button.disabled = true

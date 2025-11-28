@@ -35,7 +35,7 @@ func _discard() -> void:
 	selected_card.reparent(get_tree().root) # reparenting means that we know for sure when we call update cards the card wont be a child of the hand anymore
 	selected_card.queue_free() # queue free only deletes a node at the end of the frame when its safe to do so
 	$"../discard_card_button".disabled = true
-	$"../discard_tract_button".disabled = false
+	#$"../discard_tract_button".disabled = false
 	
 	$"../Deck".draw_card()	
 
@@ -69,26 +69,22 @@ func _update_cards():
 # this code controls the highlight selection of cards in the hand
 # it also enables and disables the discard card and discard tract buttons
 func on_card_clicked(clicked_card: Card): 
+	var parent_node = get_parent()
+	parent_node.remove_caravan_selection() 
 	if clicked_card != selected_card:
 		if selected_card != null:
 			selected_card.toggle_highlight()
 
 		clicked_card.toggle_highlight()
 		selected_card = clicked_card
-		if selected_card.card_type != "number card" and selected_card.card_type != "queen":
-			#get_parent().disable_mouse_inputs_for_caravans()
-			pass
-		else:
-			#get_parent().enable_mouse_inputs_for_caravans()
-			pass
 		if $"../Deck".deck.size() != 0:
 			$"../discard_card_button".disabled = false
-		$"../discard_tract_button".disabled = true
+		#$"../discard_tract_button".disabled = true
 	else:
 		clicked_card.toggle_highlight()
 		selected_card = null
 		$"../discard_card_button".disabled = true
-		$"../discard_tract_button".disabled = false
+		#$"../discard_tract_button".disabled = false
 
 # this code is ran when the player clicks on a caravan with a valid selected card from hand
 func play_card() -> Card:
@@ -100,7 +96,7 @@ func play_card() -> Card:
 	selected_card = null
 	_update_cards()
 	$"../discard_card_button".disabled = true # at some point clean up this code so you don't enable and disable the buttons like this
-	$"../discard_tract_button".disabled = false
+	#$"../discard_tract_button".disabled = false
 	return played_card
 
 
