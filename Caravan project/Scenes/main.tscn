@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://yedp7ci4l25n"]
+[gd_scene load_steps=8 format=3 uid="uid://yedp7ci4l25n"]
 
 [ext_resource type="Script" uid="uid://cn7h1gstgci4e" path="res://Scripts/main_game.gd" id="1_kry3j"]
 [ext_resource type="Script" uid="uid://b7wbff0yr6ivd" path="res://Scripts/hand.gd" id="3_21xkr"]
@@ -13,6 +13,19 @@ point_count = 3
 _limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, -1), 0.0, 4.1348314, 0, 0, Vector2(0.5, 0.033707857), 0.0, 0.0, 0, 0, Vector2(1, 1), 5.033708, 0.0, 0, 0]
 point_count = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+shadow_size = 6
 
 [node name="main_game" type="Node2D"]
 script = ExtResource("1_kry3j")
@@ -103,6 +116,56 @@ theme_override_font_sizes/normal_font_size = 22
 text = "Deck: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="end_screen_panel" type="Panel" parent="."]
+visible = false
+z_index = 100
+offset_left = 256.0
+offset_top = 128.0
+offset_right = 1024.0
+offset_bottom = 576.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
+
+[node name="victor_text_label" type="RichTextLabel" parent="end_screen_panel"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 768.0
+offset_bottom = 144.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 48
+text = "The CPU won!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="reason_text_label" type="RichTextLabel" parent="end_screen_panel"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 160.0
+offset_right = 736.0
+offset_bottom = 304.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 38
+text = "The CPU sold all 3 of their caravans without any ties!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="play_again_button" type="Button" parent="end_screen_panel"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 336.0
+offset_right = 320.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 32
+text = "Play Again?"
+
+[node name="main_menu_button" type="Button" parent="end_screen_panel"]
+layout_mode = 0
+offset_left = 448.0
+offset_top = 336.0
+offset_right = 704.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 32
+text = "Main Menu"
 
 [connection signal="pressed" from="draw_card_button" to="." method="_on_draw_card_button_pressed"]
 [connection signal="pressed" from="discard_card_button" to="." method="_on_discard_card_button_pressed"]

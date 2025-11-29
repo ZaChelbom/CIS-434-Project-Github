@@ -209,6 +209,6 @@ func win_loss_conditions():
 
 
 func end_game(victor: String, reason: String):
-	pass
-	# this will enable the end panel that will display the details of the match
-	# it will also enable the buttons Main menu and Play again
+	$end_screen_panel/victor_text_label.text = "%s wins!" %[victor]
+	$end_screen_panel/reason_text_label.text = reason
+	$end_screen_panel.visible = true
