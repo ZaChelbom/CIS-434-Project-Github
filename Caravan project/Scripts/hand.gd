@@ -71,6 +71,7 @@ func _update_cards():
 func on_card_clicked(clicked_card: Card): 
 	var parent_node = get_parent()
 	parent_node.remove_caravan_selection() 
+	$"../discard_tract_button".disabled = true
 	if clicked_card != selected_card:
 		if selected_card != null:
 			selected_card.toggle_highlight()
