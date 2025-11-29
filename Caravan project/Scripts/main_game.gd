@@ -11,7 +11,7 @@ var current_turn: String
 func _ready() -> void:
 	get_viewport().physics_object_picking_first_only = true
 	get_viewport().physics_object_picking_sort = true
-	is_setup_phase_over = true
+	is_setup_phase_over = false
 	deck.load_deck()
 	for i in 8: # draw 8 cards from deck on startup
 		deck.draw_card()
@@ -37,6 +37,8 @@ func _ready() -> void:
 
 func advance_turn():
 	win_loss_conditions()
+	if is_setup_phase_over == false:
+		check_setup_round()
 	if current_turn == "player": # if it's currently the players turn change it to the CPU
 		current_turn = "cpu"
 		advance_turn()
@@ -212,3 +214,27 @@ func end_game(victor: String, reason: String):
 	$end_screen_panel/victor_text_label.text = "%s wins!" %[victor]
 	$end_screen_panel/reason_text_label.text = reason
 	$end_screen_panel.visible = true
+
+
+func _on_play_again_button_pressed() -> void:
+	get_tree().reload_current_scene()
+
+
+
+func _on_main_menu_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
+
+
+# this function checks all of the caravans on the board to see if a card has been placed 
+func check_setup_round():
+	var pc0: Caravan = get_node("player_caravan_0")
+	var pc1: Caravan = get_node("player_caravan_1")
+	var pc2: Caravan = get_node("player_caravan_2")
+
+	var cc0: Caravan = get_node("cpu_caravan_0")
+	var cc1: Caravan = get_node("cpu_caravan_1")
+	var cc2: Caravan = get_node("cpu_caravan_2")
+
+	if pc0.first_card_played and pc1.first_card_played and pc2.first_card_played:
+		#if cc0.first_card_played and cc1.first_card_played and cc2.first_card_played:
+			is_setup_phase_over = true

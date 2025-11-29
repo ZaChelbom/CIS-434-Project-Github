@@ -171,3 +171,5 @@ text = "Main Menu"
 [connection signal="pressed" from="discard_card_button" to="." method="_on_discard_card_button_pressed"]
 [connection signal="pressed" from="discard_tract_button" to="." method="_on_discard_tract_button_pressed"]
 [connection signal="pressed" from="debug_reset_button" to="." method="_on_debug_reset_button_pressed"]
+[connection signal="pressed" from="end_screen_panel/play_again_button" to="." method="_on_play_again_button_pressed"]
+[connection signal="pressed" from="end_screen_panel/main_menu_button" to="." method="_on_main_menu_button_pressed"]

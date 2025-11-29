@@ -13,7 +13,7 @@ var most_recent_number_card_value: int
 var selected_card_from_hand: Card
 var saved_hovered_card: Card
 var is_selected_card_valid: bool
-
+var first_card_played: bool
 
 
 @export var caravan_curve: Curve
@@ -140,6 +140,7 @@ func add_card_to_caravan(new_card: Card):
 	new_card.visible = true
 	if $tract.get_child_count() == 0 and caravan_suit == "":
 		caravan_suit = new_card.suit
+		first_card_played = true
 	if count_number_cards() == 1 and caravan_direction == "" and new_card.card_type == "number card": # set direction of caravan
 		if new_card.value > most_recent_number_card_value:
 			caravan_direction = "ascending"
