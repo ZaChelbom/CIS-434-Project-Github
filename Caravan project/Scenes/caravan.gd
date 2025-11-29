@@ -7,7 +7,7 @@ var caravan_value: int # the sum value of the caravan
 var is_sold: bool
 var caravan_suit: String # clubs, diamonds, hearts, spades
 var caravan_direction: String # ascending, descending
-var is_outbidding: bool
+var is_outbidding: bool # this is set in the main game script
 
 var most_recent_number_card_value: int
 var selected_card_from_hand: Card
