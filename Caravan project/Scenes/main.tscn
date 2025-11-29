@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://yedp7ci4l25n"]
+[gd_scene load_steps=9 format=3 uid="uid://yedp7ci4l25n"]
 
 [ext_resource type="Script" uid="uid://cn7h1gstgci4e" path="res://Scripts/main_game.gd" id="1_kry3j"]
 [ext_resource type="Script" uid="uid://b7wbff0yr6ivd" path="res://Scripts/hand.gd" id="3_21xkr"]
@@ -26,6 +26,13 @@ corner_radius_top_right = 45
 corner_radius_bottom_right = 45
 corner_radius_bottom_left = 45
 shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_bottom_left = 32
 
 [node name="main_game" type="Node2D"]
 script = ExtResource("1_kry3j")
@@ -166,6 +173,25 @@ offset_right = 704.0
 offset_bottom = 400.0
 theme_override_font_sizes/font_size = 32
 text = "Main Menu"
+
+[node name="turn_display_panel" type="Panel" parent="."]
+offset_left = 960.0
+offset_right = 1280.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kry3j")
+
+[node name="current_turn_text_label" type="RichTextLabel" parent="turn_display_panel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 8.0
+offset_right = 304.0
+offset_bottom = 48.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "Current turn: "
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="draw_card_button" to="." method="_on_draw_card_button_pressed"]
 [connection signal="pressed" from="discard_card_button" to="." method="_on_discard_card_button_pressed"]

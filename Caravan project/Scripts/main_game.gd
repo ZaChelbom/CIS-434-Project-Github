@@ -33,6 +33,15 @@ func _ready() -> void:
 		new_caravan.position = Vector2(i*240,-8)
 
 	current_turn = "player"
+	update_turn_panel()
+
+func update_turn_panel():
+	var turn_label: String
+	if current_turn == "player":
+		turn_label = "Current turn: [color=#8cc7ef]Player" 
+	else:
+		turn_label = "Current turn: [color=#f5b5c5]CPU" 
+	$turn_display_panel/current_turn_text_label.text = turn_label
 
 
 func advance_turn():
@@ -41,10 +50,11 @@ func advance_turn():
 		check_setup_round()
 	if current_turn == "player": # if it's currently the players turn change it to the CPU
 		current_turn = "cpu"
+		update_turn_panel()
 		advance_turn()
 	else:
 		current_turn = "player"
-
+		update_turn_panel()
 # this function is called when projecting a copy of selected card to the caravan
 func on_request_selected_card():
 	if hand.selected_card == null:
