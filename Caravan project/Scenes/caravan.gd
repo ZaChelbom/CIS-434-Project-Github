@@ -132,7 +132,7 @@ func add_card_to_cpu_caravan(new_card: Card, caravan_index: int):
 	# set suit
 	if card_count == 0 and caravan_suit == "":
 		caravan_suit = new_card.suit
-		# Add card to caravan
+		# A.dd card to caravan
 		caravan.add_child(new_card)
 		
 		# set direction

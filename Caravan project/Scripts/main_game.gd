@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var hand: Hand = $Hand
 @onready var deck: Deck = $Deck
+@onready var cpu_deck: CPUDeck = $CPUDeck
 const CARAVAN_SCENE_PATH="res://Scenes/caravan.tscn"
 
 var is_setup_phase_over: bool 
@@ -13,6 +14,7 @@ func _ready() -> void:
 	deck.load_deck()
 	for i in 8: # draw 8 cards from deck on startup
 		deck.draw_card()
+		cpu_deck.draw_cpu_card()
 
 	for i in 3: # create 3 player caravans
 		var caravan_scene = preload(CARAVAN_SCENE_PATH)

@@ -34,7 +34,7 @@ func pick_card() -> Card:
 func pick_caravan(card: Card):
 	var placed := false
 	# loop through caravans
-	for c in $Caravan.get_children():
+	for c in $tract.get_children():
 		if c.owned_by == "cpu":
 			if card.check_placement_validity(c):
 				c.add_card_to_cpu_caravan(card, c)

@@ -31,8 +31,11 @@ func draw_cpu_card():
 	var card_image_path = "res://Assets/%s.png" %[card_drawn_name]
 	var card_scene = preload(CARD_SCENE_PATH)
 	var new_card = card_scene.instantiate()
-	new_card.get_node("CardIMGback").texture = load(card_image_path)
+	new_card.get_node("CardIMGback").texture = load("res://Assets/cardHachi.png")
 	new_card.card_type = card_drawn_name
+	new_card.get_node("CardIMGback").visible = true
+	new_card.get_node("CardIMGfront").visible = false
+	
 	$"../CPUHand".add_card_to_cpu_hand(new_card)
 	_update_cpu_deck()
 
