@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://yedp7ci4l25n"]
+[gd_scene load_steps=14 format=3 uid="uid://yedp7ci4l25n"]
 
 [ext_resource type="Script" uid="uid://cn7h1gstgci4e" path="res://Scripts/main_game.gd" id="1_kry3j"]
 [ext_resource type="Script" uid="uid://bwcmfmkj734vb" path="res://Scenes/opponent_hand.gd" id="3_6bp64"]
@@ -15,6 +15,14 @@ point_count = 3
 [sub_resource type="Curve" id="Curve_21xkr"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, -1), 0.0, 4.1348314, 0, 0, Vector2(0.5, 0.033707857), 0.0, 0.0, 0, 0, Vector2(1, 1), 5.033708, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_6bp64"]
+_data = [Vector2(0, 0), 0.0, 0.059069, 0, 0, Vector2(0.5163044, 0.11235964), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.23493354, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_344ge"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5163044, 0.48314613), -0.79877424, -0.79877424, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
@@ -96,6 +104,8 @@ mouse_filter = 2
 mouse_behavior_recursive = 1
 color = Color(0, 0, 0, 0)
 script = ExtResource("3_6bp64")
+hand_curve = SubResource("Curve_6bp64")
+rotation_curve = SubResource("Curve_344ge")
 
 [node name="draw_card_button" type="Button" parent="."]
 visible = false
@@ -234,6 +244,10 @@ bbcode_enabled = true
 text = "Current turn: "
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="opponent_timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
 
 [connection signal="pressed" from="draw_card_button" to="." method="_on_draw_card_button_pressed"]
 [connection signal="pressed" from="discard_card_button" to="." method="_on_discard_card_button_pressed"]

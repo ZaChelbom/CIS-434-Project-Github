@@ -2,6 +2,9 @@ extends Node2D
 
 @onready var hand: Hand = $Hand
 @onready var deck: Deck = $Deck
+@onready var opponent_deck: opponent_deck = $Opponent_deck
+@onready var opponent_hand: opponent_hand = $Opponent_hand
+
 const CARAVAN_SCENE_PATH="res://Scenes/caravan.tscn"
 
 var is_setup_phase_over: bool 
@@ -15,6 +18,7 @@ func _ready() -> void:
 	deck.load_deck()
 	for i in 8: # draw 8 cards from deck on startup
 		deck.draw_card()
+		opponent_deck.draw_cpu_card()
 
 	for i in 3: # create 3 player caravans
 		var caravan_scene = preload(CARAVAN_SCENE_PATH)
@@ -45,13 +49,16 @@ func update_turn_panel():
 
 
 func advance_turn():
-	win_loss_conditions()
+	win_loss_conditions() # check the win conditions
 	if is_setup_phase_over == false:
-		check_setup_round()
+		check_setup_round() # check if the setup phase is over
+	
 	if current_turn == "player": # if it's currently the players turn change it to the CPU
 		current_turn = "cpu"
 		update_turn_panel()
-		advance_turn()
+		cpu_action()
+		# have the CPU do an action
+		#advance_turn()
 	else:
 		current_turn = "player"
 		update_turn_panel()
@@ -246,5 +253,47 @@ func check_setup_round():
 	var cc2: Caravan = get_node("cpu_caravan_2")
 
 	if pc0.first_card_played and pc1.first_card_played and pc2.first_card_played:
-		#if cc0.first_card_played and cc1.first_card_played and cc2.first_card_played:
+		if cc0.first_card_played and cc1.first_card_played and cc2.first_card_played:
 			is_setup_phase_over = true
+
+
+func cpu_action():
+	# print("Before timer")
+	var random_time = RandomNumberGenerator.new().randf_range(1.0, 3.5)
+	get_node("opponent_timer").wait_time = random_time
+	get_node("opponent_timer").start()
+	
+	await get_node("opponent_timer").timeout
+	# print("After timer")
+
+	if is_setup_phase_over == false: # if setup phase is NOT over
+		cpu_setup_phase_action()
+	
+	# add function that checks to see if any of the caravans are overburdened
+	# if so, remove that tract
+	
+	# pick the lowest card in the hand
+	# attempt to place it in the lowest value caravan 
+	# if it cant be placed, then try the next caravan
+	# if all of caravans fail, then pick the next lowest card and repeat
+	
+				
+
+	advance_turn()
+	
+func cpu_setup_phase_action():
+	opponent_hand.select_lowest_card() # select the lowest value card in the CPU's hand
+	var cpu_caravan_name: String
+	for i in 3: # place that card in an unoccupied caravan
+		cpu_caravan_name = "cpu_caravan_%d" %[i]
+		var cpu_caravan: Caravan = get_node(cpu_caravan_name)
+		if cpu_caravan.first_card_played == false:
+			# send that card into the caravan
+			var card: Card = opponent_hand.play_card()
+			card.get_node("CardIMGback").visible = false
+			card.get_node("CardIMGfront").visible = true
+			cpu_caravan.add_card_to_caravan(card)
+			break
+
+# wait for 2-3 seconds
+# check if any of the caravans are overburdened

@@ -68,12 +68,24 @@ func _update_cards():
 func play_card() -> Card:
 	if selected_card == null:
 		print ("Error trying to play card when there is no selected card")
-	selected_card.visible = false
+	#selected_card.visible = false
 	remove_child(selected_card)
 	var played_card: Card = selected_card
 	selected_card = null
 	_update_cards()
-	$"../discard_card_button".disabled = true # at some point clean up this code so you don't enable and disable the buttons like this
-	#$"../discard_tract_button".disabled = false
 	return played_card
 
+
+func select_lowest_card():
+	var total_cards := get_child_count()
+	var lowest_card: Card
+	for i in total_cards:
+		var card: Card = get_child(i)
+		if i == 0:
+			lowest_card = card
+			continue
+
+		if card.value < lowest_card.value:
+			lowest_card = card
+
+	selected_card = lowest_card
