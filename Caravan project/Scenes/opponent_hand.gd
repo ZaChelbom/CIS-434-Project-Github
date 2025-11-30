@@ -9,6 +9,7 @@ extends ColorRect
 @export var y_min := 0 # offset on the y-axis compared to the hand's position
 @export var y_max := -15 # maximum amount of y offset that can be applied to cards based on the hand card
 
+
 var selected_card: Card
 
 func add_card_to_hand(new_card):
@@ -89,3 +90,15 @@ func select_lowest_card():
 			lowest_card = card
 
 	selected_card = lowest_card
+
+# this function picks a random card in the hand and deletes it
+# if the deck still has cards left this function draws another card
+func discard_random_card():
+	var total_cards := get_child_count()
+	var random_index: int = RandomNumberGenerator.new().randi_range(0,total_cards-1)
+	selected_card = get_child(random_index)
+	print("Discarding: %s" %[selected_card.card_name])
+	selected_card.reparent(get_tree().root) # reparenting means that we know for sure when we call update cards the card wont be a child of the hand anymore
+	selected_card.queue_free() # queue free only deletes a node at the end of the frame when its safe to do so
+	if $"../Opponent_deck".cpu_deck.size() != 0:
+		$"../Opponent_deck".draw_cpu_card()

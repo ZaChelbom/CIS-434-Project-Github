@@ -270,7 +270,7 @@ func cpu_decide_action():
 	elif is_cpu_overburdened(): # remove any overburdened Caravans
 		print("CPU decided to reset Caravan")
 	else: 
-		pass
+		opponent_hand.discard_random_card()
 	
 	
 	
@@ -322,4 +322,3 @@ func cpu_normal_action():
 		# if the card selected is > previous card placed and the value of the two cards do not exceed 26
 
 
-	pass

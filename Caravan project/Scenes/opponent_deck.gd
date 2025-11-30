@@ -42,6 +42,7 @@ func draw_cpu_card():
 	new_card.value = card_database.CARDS[card_drawn_name][0]
 	new_card.suit = card_database.CARDS[card_drawn_name][1]
 	new_card.card_type = card_database.CARDS[card_drawn_name][2]
+	new_card.card_name = card_drawn_name
 	
 	$"../Opponent_hand".add_card_to_hand(new_card)
 	_update_cpu_deck()
