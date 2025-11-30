@@ -56,9 +56,7 @@ func advance_turn():
 	if current_turn == "player": # if it's currently the players turn change it to the CPU
 		current_turn = "cpu"
 		update_turn_panel()
-		cpu_action()
-		# have the CPU do an action
-		#advance_turn()
+		cpu_decide_action()
 	else:
 		current_turn = "player"
 		update_turn_panel()
@@ -88,6 +86,8 @@ func add_card_to_caravan(node_name: String):
 
 func _on_discard_card_button_pressed() -> void:
 	hand._discard()
+	if is_setup_phase_over:
+		advance_turn()
 
 
 func _on_discard_tract_button_pressed() -> void:
@@ -257,7 +257,7 @@ func check_setup_round():
 			is_setup_phase_over = true
 
 
-func cpu_action():
+func cpu_decide_action():
 
 	# Wait a random amount of time between 1 - 3.5 seconds
 	var random_time = RandomNumberGenerator.new().randf_range(1.0, 3.5) 
@@ -266,10 +266,13 @@ func cpu_action():
 	await get_node("opponent_timer").timeout
 
 	if is_setup_phase_over == false: # if setup phase is NOT over
-		cpu_setup_phase_action()
+		cpu_setup_phase_action() 
+	elif is_cpu_overburdened(): # remove any overburdened Caravans
+		print("CPU decided to reset Caravan")
+	else: 
+		pass
 	
-	# add function that checks to see if any of the caravans are overburdened
-	# if so, remove that tract
+	
 	
 	# pick the lowest card in the hand
 	# attempt to place it in the lowest value caravan 
@@ -294,3 +297,29 @@ func cpu_setup_phase_action():
 			cpu_caravan.add_card_to_caravan(card)
 			break
 
+# removes the first overburdened caravan found
+# returns true when overburdened caravan is found
+# returns false if no overburdened caravan is found
+func is_cpu_overburdened() -> bool:
+	var cpu_caravan_name: String
+	for i in 3:
+		cpu_caravan_name = "cpu_caravan_%d" %[i]
+		var cpu_caravan: Caravan = get_node(cpu_caravan_name)
+		if cpu_caravan.caravan_value > 26: # if the tract is overburdened 
+			cpu_caravan.reset_caravan() # reset that tract and break out of the loop
+			return true
+		
+	return false 
+
+
+func cpu_normal_action():
+	var cpu_caravan_name: String
+	for i in 3:
+		cpu_caravan_name = "cpu_caravan_%d" %[i]
+		var cpu_caravan: Caravan = get_node(cpu_caravan_name)
+		# get the caravan with the smallest previous number card added
+		# create an ordered array of the lowest value cards to highest value cards in hand
+		# if the card selected is > previous card placed and the value of the two cards do not exceed 26
+
+
+	pass
