@@ -258,13 +258,12 @@ func check_setup_round():
 
 
 func cpu_action():
-	# print("Before timer")
-	var random_time = RandomNumberGenerator.new().randf_range(1.0, 3.5)
+
+	# Wait a random amount of time between 1 - 3.5 seconds
+	var random_time = RandomNumberGenerator.new().randf_range(1.0, 3.5) 
 	get_node("opponent_timer").wait_time = random_time
 	get_node("opponent_timer").start()
-	
 	await get_node("opponent_timer").timeout
-	# print("After timer")
 
 	if is_setup_phase_over == false: # if setup phase is NOT over
 		cpu_setup_phase_action()
@@ -295,5 +294,3 @@ func cpu_setup_phase_action():
 			cpu_caravan.add_card_to_caravan(card)
 			break
 
-# wait for 2-3 seconds
-# check if any of the caravans are overburdened

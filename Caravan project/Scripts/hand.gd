@@ -70,6 +70,8 @@ func _update_cards():
 # it also enables and disables the discard card and discard tract buttons
 func on_card_clicked(clicked_card: Card): 
 	var parent_node = get_parent()
+	if parent_node.current_turn == "cpu":
+		return
 	parent_node.remove_caravan_selection() 
 	$"../discard_tract_button".disabled = true
 	if clicked_card != selected_card:

@@ -470,7 +470,7 @@ func _on_back_panel_gui_input(event: InputEvent) -> void:
 		if event.is_pressed():
 			if is_selected_card_valid != true:
 				var parent = get_parent()
-				if parent.is_setup_phase_over == false:
+				if parent.is_setup_phase_over == false or parent.current_turn == "cpu":
 					return
 				if parent.on_request_selected_card() == null and owned_by == "player" and $tract.get_child_count() > 0:
 					parent.caravan_clicked_with_no_card(self.name)
