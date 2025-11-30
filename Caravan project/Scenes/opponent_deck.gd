@@ -35,7 +35,7 @@ func draw_cpu_card():
 	var card_database = preload(CARD_DATABASE_PATH) # this is dumb and bad I should have scrapped this
 	var new_card = card_scene.instantiate()
 	new_card.get_node("CardIMGfront").texture = load(card_image_path)
-	new_card.get_node("CardIMGback").texture = load("res://Assets/cardHachi.png")
+	new_card.get_node("CardIMGback").texture = load("res://Assets/cardChii.png")
 	new_card.get_node("CardIMGback").visible = true
 	new_card.get_node("CardIMGfront").visible = false
 
