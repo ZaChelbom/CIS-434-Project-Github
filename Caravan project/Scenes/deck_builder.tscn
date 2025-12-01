@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgx58i2cjxope"]
 
 [ext_resource type="Script" uid="uid://cw7ysn5cgmyoq" path="res://Scripts/main_menu_button.gd" id="1_hxkww"]
-[ext_resource type="Script" uid="uid://by61iu1vljbi0" path="res://Scenes/deck_builder.gd" id="1_ngatf"]
-[ext_resource type="Script" uid="uid://7gwobxo40u0y" path="res://Scenes/scroll_container.gd" id="3_utqn7"]
+[ext_resource type="Script" uid="uid://by61iu1vljbi0" path="res://Scripts/deck_builder.gd" id="1_ngatf"]
+[ext_resource type="Script" uid="uid://7gwobxo40u0y" path="res://Scripts/scroll_container.gd" id="3_utqn7"]
 
 [node name="Deck_builder" type="Node2D"]
 script = ExtResource("1_ngatf")

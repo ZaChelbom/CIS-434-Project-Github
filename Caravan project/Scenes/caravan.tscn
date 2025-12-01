@@ -1,0 +1,174 @@
+[gd_scene load_steps=7 format=3 uid="uid://xqmc3mws3p5c"]
+
+[ext_resource type="Script" uid="uid://bn3kt0qik5p30" path="res://Scenes/caravan.gd" id="1_5cenb"]
+
+[sub_resource type="Curve" id="Curve_5cenb"]
+_data = [Vector2(0, 0.08988774), 0.0, 0.10602129, 0, 0, Vector2(0.49456525, 0.13483155), 0.0, 0.0, 0, 0, Vector2(1, 0.08988774), -0.2584269, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_lgjcq"]
+_data = [Vector2(0, 0), 0.0, 0.43271533, 0, 0, Vector2(0.52717394, 0.29213488), 0.0, 0.0, 0, 0, Vector2(1, 0.50561804), 0.9044947, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ohdke"]
+bg_color = Color(0.16862746, 0.7372549, 0.6156863, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5cenb"]
+bg_color = Color(0.9529412, 0.9529412, 0.9529412, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lgjcq"]
+bg_color = Color(0, 0.88235295, 0.3764706, 0.3529412)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="Caravan" type="Node2D"]
+script = ExtResource("1_5cenb")
+caravan_curve = SubResource("Curve_5cenb")
+rotation_curve = SubResource("Curve_lgjcq")
+
+[node name="measurementbox" type="ColorRect" parent="."]
+offset_right = 240.0
+offset_bottom = 360.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+color = Color(1, 1, 1, 0)
+
+[node name="back_panel" type="Panel" parent="."]
+offset_left = 72.0
+offset_top = 8.0
+offset_right = 200.0
+offset_bottom = 360.0
+mouse_filter = 1
+mouse_force_pass_scroll_events = false
+theme_override_styles/panel = SubResource("StyleBoxFlat_ohdke")
+
+[node name="outbid_panel" type="Panel" parent="."]
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 64.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_5cenb")
+
+[node name="outbid_text_label" type="RichTextLabel" parent="outbid_panel"]
+visible = false
+layout_mode = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 52.0
+offset_bottom = 48.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_colors/default_color = Color(0.52156866, 0.73333335, 0.39607844, 1)
+theme_override_font_sizes/normal_font_size = 24
+text = "$"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="value_panel" type="Panel" parent="."]
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 72.0
+offset_bottom = 120.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_5cenb")
+
+[node name="value_text_label" type="RichTextLabel" parent="value_panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 52.0
+offset_bottom = 48.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="suit_panel" type="Panel" parent="."]
+offset_left = 16.0
+offset_top = 120.0
+offset_right = 72.0
+offset_bottom = 176.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_5cenb")
+
+[node name="suit_text_label" type="RichTextLabel" parent="suit_panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 52.0
+offset_bottom = 48.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "♣"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="direction_panel" type="Panel" parent="."]
+offset_left = 16.0
+offset_top = 176.0
+offset_right = 72.0
+offset_bottom = 232.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_5cenb")
+
+[node name="direction_text_label" type="RichTextLabel" parent="direction_panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 52.0
+offset_bottom = 48.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 28
+text = "↑"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="tract" type="ColorRect" parent="."]
+offset_left = 136.0
+offset_top = 88.0
+offset_right = 152.0
+offset_bottom = 400.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+color = Color(1, 1, 1, 0)
+
+[node name="selection_outline" type="Panel" parent="."]
+visible = false
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 208.0
+offset_bottom = 360.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_lgjcq")
+
+[connection signal="gui_input" from="back_panel" to="." method="_on_back_panel_gui_input"]
+[connection signal="mouse_entered" from="back_panel" to="." method="_on_back_panel_mouse_entered"]
+[connection signal="mouse_exited" from="back_panel" to="." method="_on_back_panel_mouse_exited"]

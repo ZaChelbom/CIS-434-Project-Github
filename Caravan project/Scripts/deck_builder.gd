@@ -1,10 +1,11 @@
+class_name DeckBuilder
 extends Node2D
 
 signal clickUpdateCard(is_deck_button,card_type,card_suit)
 signal updateCard()
 
 const CARD_BUTTON_PATH = "res://Scenes/card_button.tscn"
-const MAX_NUMBER_CARDS = 6
+const MAX_NUMBER_CARDS = 2
 
 var card_button
 var card_counter: int = 0
