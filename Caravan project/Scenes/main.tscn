@@ -132,6 +132,7 @@ disabled = true
 text = "Discard Track"
 
 [node name="debug_reset_button" type="Button" parent="."]
+visible = false
 offset_left = 792.0
 offset_top = 672.0
 offset_right = 944.0

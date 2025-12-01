@@ -9,7 +9,8 @@ var cpu_deck = ["10_of_hearts", "9_of_hearts", "8_of_hearts", "7_of_hearts",
 "10_of_diamonds", "9_of_diamonds", "8_of_diamonds", "7_of_diamonds", 
 "6_of_diamonds", "4_of_diamonds", "2_of_diamonds", "9_of_spades", "7_of_spades", 
 "6_of_spades", "5_of_spades", "4_of_spades", "3_of_spades", "10_of_clubs", 
-"8_of_clubs","7_of_clubs", "6_of_clubs", "5_of_clubs", "4_of_clubs", "2_of_clubs"]
+"8_of_clubs","7_of_clubs", "6_of_clubs", "5_of_clubs", "4_of_clubs", "2_of_clubs",
+"ace_of_spades","ace_of_spades","ace_of_clubs","ace_of_diamonds"]
 
 
 # Called when the node enters the scene tree for the first time.
