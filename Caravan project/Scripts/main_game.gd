@@ -318,9 +318,10 @@ func cpu_normal_action():
 		cpu_caravan_name = "cpu_caravan_%d" %[i]
 		cpu_caravan = get_node(cpu_caravan_name)
 		var most_recent_card = cpu_caravan.most_recent_number_card_value
+		var value_array: Array[int] = cpu_caravan.return_array_of_values()
 		value_sum = cpu_caravan.caravan_value
 		# need to also check to make sure that the card about to be selected is not already an existing card in the caravan
-		if opponent_hand.select_card_most_close_to_value(most_recent_card, value_sum):
+		if opponent_hand.select_card_most_close_to_value(most_recent_card, value_sum, value_array):
 			# if a card that matches the requirements is found 
 			cpu_play_card(cpu_caravan)
 			return true

@@ -105,7 +105,7 @@ func discard_random_card():
 		$"../Opponent_deck".draw_cpu_card()
 
 
-func select_card_most_close_to_value(prev_number_card_value: int, caravan_value: int) -> bool:
+func select_card_most_close_to_value(prev_number_card_value: int, caravan_value: int, caravan_card_values: Array[int]) -> bool:
 	var total_cards := get_child_count()
 	var ordered_card_array: Array[Card]
 	for i in total_cards: # fill the array
@@ -114,7 +114,7 @@ func select_card_most_close_to_value(prev_number_card_value: int, caravan_value:
 	ordered_card_array.sort_custom(_sort_ascending) # sort the array
 
 	for j in total_cards:
-		if ordered_card_array[j].value > prev_number_card_value:
+		if ordered_card_array[j].value > prev_number_card_value and ensure_value_not_repeated(ordered_card_array[j].value,caravan_card_values):
 			if ordered_card_array[j].value + caravan_value > 26: # if the closest smallest card + the current caravan value exceeds 26 
 				return false
 			selected_card = ordered_card_array[j] # set selected card
@@ -149,9 +149,6 @@ func select_card_with_same_suit(caravan_suit: String, caravan_value: int, carava
 			return true
 
 	return false
-
-
-
 
 
 func ensure_value_not_repeated(value:int ,value_array: Array[int]) -> bool:
