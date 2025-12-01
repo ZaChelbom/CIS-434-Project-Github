@@ -91,6 +91,7 @@ func select_lowest_card():
 
 	selected_card = lowest_card
 
+
 # this function picks a random card in the hand and deletes it
 # if the deck still has cards left this function draws another card
 func discard_random_card():
@@ -102,3 +103,60 @@ func discard_random_card():
 	selected_card.queue_free() # queue free only deletes a node at the end of the frame when its safe to do so
 	if $"../Opponent_deck".cpu_deck.size() != 0:
 		$"../Opponent_deck".draw_cpu_card()
+
+
+func select_card_most_close_to_value(prev_number_card_value: int, caravan_value: int) -> bool:
+	var total_cards := get_child_count()
+	var ordered_card_array: Array[Card]
+	for i in total_cards: # fill the array
+		ordered_card_array.append(get_child(i))
+
+	ordered_card_array.sort_custom(_sort_ascending) # sort the array
+
+	for j in total_cards:
+		if ordered_card_array[j].value > prev_number_card_value:
+			if ordered_card_array[j].value + caravan_value > 26: # if the closest smallest card + the current caravan value exceeds 26 
+				return false
+			selected_card = ordered_card_array[j] # set selected card
+			return true
+
+	return false # if a card cant be found that matches the requirements return false
+
+
+func _sort_ascending(a: Card, b: Card):
+	if a.value < b.value:
+		return true
+	return false
+
+# function where the CPU looks through its hand to find cards that match the suit of the caravan
+# pass caravan suit and caravan value and all cards 
+# put cards of the same suit into an array
+func select_card_with_same_suit(caravan_suit: String, caravan_value: int, caravan_card_values: Array[int]):
+	var total_cards := get_child_count()
+	var matching_suit_card_array: Array[Card]
+	for i in total_cards: # fill the array with cards that match the suit of the caravan and are not repeated
+		var card: Card = get_child(i)
+		if card.suit == caravan_suit and ensure_value_not_repeated(card.value ,caravan_card_values):
+			matching_suit_card_array.append(get_child(i))
+
+	if matching_suit_card_array.size() == 0:
+		return false
+
+	#matching_suit_card_array.sort_custom(_sort_ascending)
+	for j in matching_suit_card_array.size() -1 :
+		if matching_suit_card_array[j].value + caravan_value < 26:
+			selected_card = matching_suit_card_array[j]
+			return true
+
+	return false
+
+
+
+
+
+func ensure_value_not_repeated(value:int ,value_array: Array[int]) -> bool:
+	for i in value_array.size() - 1:
+		if value == value_array[i]:
+			return false # if value is repeated return false
+
+	return true # returns true if no values are repeated

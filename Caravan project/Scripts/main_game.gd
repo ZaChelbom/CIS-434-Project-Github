@@ -16,6 +16,7 @@ func _ready() -> void:
 	get_viewport().physics_object_picking_sort = true
 	is_setup_phase_over = false
 	deck.load_deck()
+	opponent_deck.cpu_deck.shuffle()
 	for i in 8: # draw 8 cards from deck on startup
 		deck.draw_card()
 		opponent_deck.draw_cpu_card()
@@ -193,6 +194,9 @@ func win_loss_conditions():
 					player_caravan.is_outbidding = false
 					cpu_caravan.is_outbidding = true
 
+				player_caravan._update_caravan_properties()
+				cpu_caravan._update_caravan_properties()
+
 		if player_caravan.is_sold == true:
 			number_of_player_caravans_sold += 1
 
@@ -223,6 +227,11 @@ func win_loss_conditions():
 	if deck.deck.size() == 0:
 		who_won = "CPU"
 		reason_for_win = "You ran out of cards in your deck!"
+		end_game(who_won,reason_for_win)
+
+	if opponent_deck.cpu_deck.size() == 0:
+		who_won = "Player"
+		reason_for_win = "The CPU ran out of cards in their deck!"
 		end_game(who_won,reason_for_win)
 
 
@@ -269,17 +278,10 @@ func cpu_decide_action():
 		cpu_setup_phase_action() 
 	elif is_cpu_overburdened(): # remove any overburdened Caravans
 		print("CPU decided to reset Caravan")
+	elif cpu_normal_action(): # try to place a valid card in any of the caravans
+		print("CPU decided to play a card")
 	else: 
 		opponent_hand.discard_random_card()
-	
-	
-	
-	# pick the lowest card in the hand
-	# attempt to place it in the lowest value caravan 
-	# if it cant be placed, then try the next caravan
-	# if all of caravans fail, then pick the next lowest card and repeat
-	
-				
 
 	advance_turn()
 	
@@ -290,11 +292,7 @@ func cpu_setup_phase_action():
 		cpu_caravan_name = "cpu_caravan_%d" %[i]
 		var cpu_caravan: Caravan = get_node(cpu_caravan_name)
 		if cpu_caravan.first_card_played == false:
-			# send that card into the caravan
-			var card: Card = opponent_hand.play_card()
-			card.get_node("CardIMGback").visible = false
-			card.get_node("CardIMGfront").visible = true
-			cpu_caravan.add_card_to_caravan(card)
+			cpu_play_card(cpu_caravan) # send that card into the caravan
 			break
 
 # removes the first overburdened caravan found
@@ -314,11 +312,42 @@ func is_cpu_overburdened() -> bool:
 
 func cpu_normal_action():
 	var cpu_caravan_name: String
+	var cpu_caravan: Caravan
+	var value_sum: int
 	for i in 3:
 		cpu_caravan_name = "cpu_caravan_%d" %[i]
-		var cpu_caravan: Caravan = get_node(cpu_caravan_name)
-		# get the caravan with the smallest previous number card added
-		# create an ordered array of the lowest value cards to highest value cards in hand
-		# if the card selected is > previous card placed and the value of the two cards do not exceed 26
+		cpu_caravan = get_node(cpu_caravan_name)
+		var most_recent_card = cpu_caravan.most_recent_number_card_value
+		value_sum = cpu_caravan.caravan_value
+		# need to also check to make sure that the card about to be selected is not already an existing card in the caravan
+		if opponent_hand.select_card_most_close_to_value(most_recent_card, value_sum):
+			# if a card that matches the requirements is found 
+			cpu_play_card(cpu_caravan)
+			return true
+	
+	for j in 3: # if the above fails try this now
+		cpu_caravan_name = "cpu_caravan_%d" %[j]
+		cpu_caravan = get_node(cpu_caravan_name)
+		var caravan_suit := cpu_caravan.caravan_suit
+		value_sum = cpu_caravan.caravan_value
+		var value_array: Array[int] = cpu_caravan.return_array_of_values()
+		if opponent_hand.select_card_with_same_suit(caravan_suit, value_sum, value_array):
+			# if a card that matches the requirements is found 
+			cpu_play_card(cpu_caravan)
+			return true
+		
+
+
+	return false # if a card cant be placed in any of the caravans return false
+
+
+func cpu_play_card(cpu_caravan: Caravan):
+	var card: Card = opponent_hand.play_card() 
+	card.get_node("CardIMGback").visible = false
+	card.get_node("CardIMGfront").visible = true
+	cpu_caravan.add_card_to_caravan(card)
+	if opponent_deck.cpu_deck.size() != 0 and is_setup_phase_over:
+		opponent_deck.draw_cpu_card()
+
 
 

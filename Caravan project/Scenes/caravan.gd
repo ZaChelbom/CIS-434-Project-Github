@@ -502,3 +502,13 @@ func toggle_highlight_caravan():
 	else:
 		$selection_outline.visible = true
 	pass
+
+
+func return_array_of_values() -> Array[int]:
+	var cards := $tract.get_child_count()
+	var value_array: Array[int]
+	for i in cards:
+		var card: Card = $tract.get_child(i)
+		value_array.append(card.value)
+
+	return value_array
