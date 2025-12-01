@@ -11,6 +11,7 @@ var is_setup_phase_over: bool
 var caravan_selected_for_reset: String
 var current_turn: String
 
+
 func _ready() -> void:
 	get_viewport().physics_object_picking_first_only = true
 	get_viewport().physics_object_picking_sort = true
@@ -40,6 +41,7 @@ func _ready() -> void:
 	current_turn = "player"
 	update_turn_panel()
 
+
 func update_turn_panel():
 	var turn_label: String
 	if current_turn == "player":
@@ -61,6 +63,8 @@ func advance_turn():
 	else:
 		current_turn = "player"
 		update_turn_panel()
+
+
 # this function is called when projecting a copy of selected card to the caravan
 func on_request_selected_card():
 	if hand.selected_card == null:
@@ -122,7 +126,8 @@ func joker_played(card_before_joker: Card):
 			else:
 				#remove value of number card 2-10, except for the card it was placed on
 				node.remove_num_cards_of_specified_value(card_before_joker)
-		
+
+
 # this function is called when a caravan is clicked on without a card selected
 func caravan_clicked_with_no_card(caravan: String):
 	var node: Caravan
@@ -151,6 +156,7 @@ func remove_caravan_selection():
 		caravan_selected_for_reset = ""
 	else:
 		return
+
 
 # this function enables/disables the discard tract button based on the existance of the caravan_selected_for_reset variable
 func toggle_discard_tract_button():
@@ -235,7 +241,6 @@ func win_loss_conditions():
 		end_game(who_won,reason_for_win)
 
 
-
 func end_game(victor: String, reason: String):
 	$end_screen_panel/victor_text_label.text = "%s wins!" %[victor]
 	$end_screen_panel/reason_text_label.text = reason
@@ -244,7 +249,6 @@ func end_game(victor: String, reason: String):
 
 func _on_play_again_button_pressed() -> void:
 	get_tree().reload_current_scene()
-
 
 
 func _on_main_menu_button_pressed() -> void:
@@ -267,7 +271,6 @@ func check_setup_round():
 
 
 func cpu_decide_action():
-
 	# Wait a random amount of time between 1 - 3.5 seconds
 	var random_time = RandomNumberGenerator.new().randf_range(1.0, 3.5) 
 	get_node("opponent_timer").wait_time = random_time
@@ -284,7 +287,8 @@ func cpu_decide_action():
 		opponent_hand.discard_random_card()
 
 	advance_turn()
-	
+
+
 func cpu_setup_phase_action():
 	opponent_hand.select_lowest_card() # select the lowest value card in the CPU's hand
 	var cpu_caravan_name: String
@@ -336,8 +340,6 @@ func cpu_normal_action():
 			# if a card that matches the requirements is found 
 			cpu_play_card(cpu_caravan)
 			return true
-		
-
 
 	return false # if a card cant be placed in any of the caravans return false
 
@@ -349,6 +351,3 @@ func cpu_play_card(cpu_caravan: Caravan):
 	cpu_caravan.add_card_to_caravan(card)
 	if opponent_deck.cpu_deck.size() != 0 and is_setup_phase_over:
 		opponent_deck.draw_cpu_card()
-
-
-
