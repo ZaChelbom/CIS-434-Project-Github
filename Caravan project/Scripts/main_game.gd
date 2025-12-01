@@ -106,8 +106,9 @@ func _on_discard_tract_button_pressed() -> void:
 		print("This should not happen")
 
 
-func _on_debug_reset_button_pressed() -> void:
-	get_tree().reload_current_scene()
+func _on_forfeit_button_pressed() -> void:
+	$forfeit_game_panel.visible = true
+	#get_tree().reload_current_scene()
 
 
 func joker_played(card_before_joker: Card):
@@ -351,3 +352,10 @@ func cpu_play_card(cpu_caravan: Caravan):
 	cpu_caravan.add_card_to_caravan(card)
 	if opponent_deck.cpu_deck.size() != 0 and is_setup_phase_over:
 		opponent_deck.draw_cpu_card()
+
+
+func _on_forfeit_no_button_pressed() -> void:
+	$forfeit_game_panel.visible = false
+
+func _on_forfeit_yes_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
