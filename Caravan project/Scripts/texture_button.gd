@@ -12,6 +12,7 @@ var is_deck_button: bool
 
 @onready var number_label = $number_label
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_tree().get_root().get_node("Deck_builder").updateCard.connect(_on_updateCard) #connect the signal
@@ -20,9 +21,11 @@ func _ready() -> void:
 		number_label.text = "x%d" %[number_of_cards]
 		$".".modulate = Color(1,1,1,0)
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
 
 func _on_updateCard():
 	number_label.text = "x%d" %[number_of_cards]
@@ -38,11 +41,8 @@ func _on_updateCard():
 			$".".texture_normal = load(card_texture)
 
 
-
 func _on_click_updateCard(check_button,check_card_type,check_card_suit):
 	if is_deck_button != check_button && check_card_type == card_type && card_suit == check_card_suit:
-		#print("Update card signal received")
-		#print("New card number: %d" %new_card_number)
 		number_of_cards += 1
 		number_label.text = "x%d" %[number_of_cards]
 		if is_deck_button:
@@ -54,15 +54,14 @@ func _on_click_updateCard(check_button,check_card_type,check_card_suit):
 	else:
 		pass
 
+
 # when the button is pressed, decrement the card counter on the button and
 # increment the counter on the opposing card
 func _on_pressed() -> void:
-	#print(number_of_cards)
 	if number_of_cards > 0: #decrement label 
 		number_of_cards -= 1
 		number_label.text = "x%d" %[number_of_cards]
 		updateDeck.emit(is_deck_button,card_type,card_suit) # emit signal
-		#print(card_type)
 		if number_of_cards == 0:
 			if is_deck_button: 
 				$".".modulate = Color(1,1,1,0)
@@ -71,4 +70,3 @@ func _on_pressed() -> void:
 				#pass
 	else:
 		pass
-	

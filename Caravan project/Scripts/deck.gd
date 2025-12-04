@@ -3,8 +3,8 @@ extends Node2D
 
 const CARD_SCENE_PATH="res://Scenes/card.tscn"
 const CARD_DATABASE_PATH = "res://Scripts/card_database.gd"
-var deck = []
 
+var deck = []
 var card_suit_array = [
 	"clubs",
 	"diamonds",
@@ -16,6 +16,7 @@ var card_suit_array = [
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
+
 
 func load_deck():
 	SaveLoadManager._load()
@@ -61,7 +62,6 @@ func draw_card():
 	new_card.value = card_database.CARDS[card_drawn_name][0]
 	new_card.suit = card_database.CARDS[card_drawn_name][1]
 	new_card.card_type = card_database.CARDS[card_drawn_name][2]
-
 
 	$"../Hand".add_card_to_hand(new_card)
 	_update_deck()

@@ -1,15 +1,15 @@
 extends Node2D
 
-@onready var hand: Hand = $Hand
-@onready var deck: Deck = $Deck
-@onready var opponent_deck: opponent_deck = $Opponent_deck
-@onready var opponent_hand: opponent_hand = $Opponent_hand
-
 const CARAVAN_SCENE_PATH="res://Scenes/caravan.tscn"
 
 var is_setup_phase_over: bool 
 var caravan_selected_for_reset: String
 var current_turn: String
+
+@onready var hand: Hand = $Hand
+@onready var deck: Deck = $Deck
+@onready var opponent_deck: opponent_deck = $Opponent_deck
+@onready var opponent_hand: opponent_hand = $Opponent_hand
 
 
 func _ready() -> void:
@@ -108,7 +108,6 @@ func _on_discard_tract_button_pressed() -> void:
 
 func _on_forfeit_button_pressed() -> void:
 	$forfeit_game_panel.visible = true
-	#get_tree().reload_current_scene()
 
 
 func joker_played(card_before_joker: Card):
@@ -299,6 +298,7 @@ func cpu_setup_phase_action():
 		if cpu_caravan.first_card_played == false:
 			cpu_play_card(cpu_caravan) # send that card into the caravan
 			break
+
 
 # removes the first overburdened caravan found
 # returns true when overburdened caravan is found

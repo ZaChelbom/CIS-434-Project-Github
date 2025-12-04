@@ -9,7 +9,6 @@ const MAX_NUMBER_CARDS = 2
 
 var card_button
 var card_counter: int = 0
-#var saved_deck = # will go to user's %appdata% folder
 var card_suit_array = [
 	"clubs",
 	"diamonds",
@@ -39,6 +38,7 @@ var deck_keys_array = deck.keys()
 @onready var scroll_container1: ScrollContainer = $ScrollContainer
 @onready var scroll_container2: ScrollContainer = $ScrollContainer2
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if SaveLoadManager._load() == null:
@@ -47,18 +47,17 @@ func _ready() -> void:
 	else:
 		print("Save file found")
 		deck = SaveLoadManager.deck_to_save
-		
 	
 	_create_cards()
 	updateCard.emit()
 	# disable the scrollbar of container 2
 	scroll_container2.get_v_scroll_bar().mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_update_card_counter()
-	
+
 
 func _is_deck_valid():
 	pass
-	
+
 
 func _on_update_deck(is_deck_button,card_type,card_suit):
 	print("Update deck signal recieved")

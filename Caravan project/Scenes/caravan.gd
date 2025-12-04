@@ -1,38 +1,33 @@
 class_name Caravan
 extends Node2D
 
-var owned_by: String # player or cpu
+const CARD_SCENE_PATH = "res://Scenes/card.tscn" # for creating projected card 
 
+var owned_by: String # player or cpu
 var caravan_value: int # the sum value of the caravan
 var is_sold: bool
 var caravan_suit: String # clubs, diamonds, hearts, spades
 var caravan_direction: String # ascending, descending
 var is_outbidding: bool # this is set in the main game script
-
 var most_recent_number_card_value: int
 var selected_card_from_hand: Card
 var saved_hovered_card: Card
 var is_selected_card_valid: bool
 var first_card_played: bool
 
-
 @export var caravan_curve: Curve
 @export var rotation_curve: Curve
-
 @export var max_rotation_degrees := 5
 @export var y_sep := -10 # seperation between cards on the y axis in pixels, negative values mean the cards will cram together, positive values mean space in between
 @export var x_min := 0 # offset on the x-axis compared to the caravan's position
 @export var x_max := -15 # maximum amount of x offset that can be applied to cards based on the hand card
 
-const CARD_SCENE_PATH = "res://Scenes/card.tscn" #temp
-
 
 func _ready() -> void:
 	caravan_value = 0
-
 	_update_caravan_properties()
-	pass # Replace with function body.
-	
+
+
 func reset_caravan():
 	var total_cards := $tract.get_child_count()
 	var removal_array: Array[Card]
@@ -92,8 +87,8 @@ func remove_num_cards_of_specified_value(number_card: Card):
 			reset_caravan()
 		_update_cards()
 		_update_caravan_properties()
-	
-	
+
+
 # If joker is placed on an Ace, it removes all number cards of the Ace's suit, excluding the ace it was played on
 func remove_num_cards_of_specified_suit(ace: Card):
 	var removal_array: Array[Card]
@@ -236,7 +231,6 @@ func _update_cards():
 
 	for i in cards:
 		var card := $tract.get_child(i)
-		#print("Card type: %s" %[card.card_type])
 		var x_multiplier := caravan_curve.sample(1.0/ (cards-1) * i)
 		var rot_multiplier := rotation_curve.sample(1.0 / (cards-1) *i)
 
@@ -294,9 +288,6 @@ func _update_caravan_properties():
 		$outbid_panel/outbid_text_label.visible = is_outbidding
 
 
-# this nesting is making me sick
-# go through this later and condense if else statements into elif statements where possible
-# will need to double check FNV again to be sure but the logic for placing cards of the same suit is so strange
 func check_placement_validity() -> bool:
 	# makes it so the player cannot place number cards on CPU tracts
 	if selected_card_from_hand.card_type == "number card" and owned_by == "cpu":
@@ -357,22 +348,15 @@ func _value_search() -> bool:
 	return true
 
 
-
-
-
 func project_placement():
 	if check_placement_validity() == false:
-		#print("Cannot place card here")
 		is_selected_card_valid = false
 		return
 	else:
-		print("Valid card placement")
-		#add_card_to_caravan(selected_card_from_hand)
 		if selected_card_from_hand.card_type == "number card" or "queen":
 			$tract.add_child(selected_card_from_hand)
 			_update_cards()
 			is_selected_card_valid = true
-
 
 
 func _on_validate_face_card(hovered_card: Card):
@@ -395,11 +379,10 @@ func _on_validate_face_card(hovered_card: Card):
 		else:
 			saved_hovered_card = hovered_card
 			$tract.add_child(selected_card_from_hand)
-			#move_child(selected_card_from_hand, hovered_card.get_index())
 			selected_card_from_hand.position = hovered_card.position
 			selected_card_from_hand.position.x =+ 15
 			is_selected_card_valid = true
-			
+
 
 # This checks the placement validity of face cards excluding the queen
 func check_placement_validity_face_cards(hovered_card: Card) -> bool:
@@ -457,11 +440,11 @@ func _copy_refrence_card(refrence_card: Card):
 	selected_card_from_hand.get_node("CardIMGfront").texture = load(card_image_path)
 	selected_card_from_hand.toggle_highlight()
 	selected_card_from_hand.get_node("Area2D").input_pickable = false
-	
 
 
 func _on_back_panel_mouse_exited() -> void:
 	_remove_projection()
+
 
 # If your selected card is valid ask the game script to move the card from
 # your hand to this caravan
@@ -480,12 +463,10 @@ func _on_back_panel_gui_input(event: InputEvent) -> void:
 			_remove_projection()
 			# ask parent to place the selected card in the hand
 			parent_node.add_card_to_caravan(self.name)
-	
+
 
 # This function removes the projected card from the caravan
 func _remove_projection():
-	#is_validation_in_use = false
-	
 	if selected_card_from_hand == null:
 		return
 	is_selected_card_valid = false

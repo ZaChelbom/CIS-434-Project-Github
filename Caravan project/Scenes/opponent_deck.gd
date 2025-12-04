@@ -2,8 +2,9 @@ class_name opponent_deck
 extends Node2D
 
 const CARD_SCENE_PATH="res://Scenes/card.tscn"
-# deafult cpu deck of 30 non face cards 
 const CARD_DATABASE_PATH = "res://Scripts/card_database.gd"
+
+# deafult cpu deck of 30 non face cards 
 var cpu_deck = ["10_of_hearts", "9_of_hearts", "8_of_hearts", "7_of_hearts",
 "6_of_hearts", "5_of_hearts", "4_of_hearts", "3_of_hearts", "2_of_hearts", 
 "10_of_diamonds", "9_of_diamonds", "8_of_diamonds", "7_of_diamonds", 
@@ -16,13 +17,13 @@ var cpu_deck = ["10_of_hearts", "9_of_hearts", "8_of_hearts", "7_of_hearts",
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
-	# cpu_deck.shuffle()
-	# _update_cpu_deck()
+
 
 func _update_cpu_deck():
 	if cpu_deck.size() == 0:
 		$DeckImage.visible = false
 	$DeckLabel.text = "Deck: %d" % [cpu_deck.size()]
+
 
 func draw_cpu_card():
 	if cpu_deck.size() == 0:

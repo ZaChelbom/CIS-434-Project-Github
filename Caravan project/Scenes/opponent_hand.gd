@@ -3,14 +3,13 @@ extends ColorRect
 
 @export var hand_curve: Curve
 @export var rotation_curve: Curve
-
 @export var max_rotation_degrees := 5
 @export var x_sep := -10 # seperation between cards on the x axis in pixels, negative values mean the cards will cram together, positive values mean space in between
 @export var y_min := 0 # offset on the y-axis compared to the hand's position
 @export var y_max := -15 # maximum amount of y offset that can be applied to cards based on the hand card
 
-
 var selected_card: Card
+
 
 func add_card_to_hand(new_card):
 	add_child(new_card)
